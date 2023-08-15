@@ -167,9 +167,40 @@ public class UserHandler
 				true+", "+initial+", "+increment+", "+reserve+", "
 				+null+", "+null+", "+null+");";
 		
+		System.out.println("CAQ"+createAuctionQuery);
+		
 		sql.updateTable(createAuctionQuery);
 		
 		//TODO: Create Item next
+		String itemTable="Item";
+		int itemID=sql.getRowCount("Item")+1;
+		
+		String createItemQuery="INSERT INTO "+itemTable+" VALUES("
+				+aid+", "+itemID+", \'"+category+"\', \'"+subcategory+"\');";
+		
+		System.out.println("CIQ"+createItemQuery);
+		
+		sql.updateTable(createItemQuery);
+		
+		String createCategoryQuery="INSERT INTO "+category+" VALUES("
+				+itemID+", \'"+subcategory+"\');";
+		
+		System.out.println("CCQ"+createCategoryQuery);
+		
+		sql.updateTable(createCategoryQuery);
+		
+		String createSubQuery="INSERT INTO "+subcategory+" VALUES("
+				+itemID+", ";
+		
+		for(int i=0; i<itemInfo.length; i++)
+		{
+			createSubQuery+="\'"+itemInfo[i]+"\', ";
+		}
+		createSubQuery+=");";
+		
+		System.out.println("CSQ"+createSubQuery);
+		
+		sql.updateTable(createSubQuery);
 		
 		status=1;
 		
