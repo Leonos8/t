@@ -39,29 +39,24 @@
 					&& initialAmount != null && !initialAmount.trim().isEmpty()
 					&& minIncrement != null && !minIncrement.trim().isEmpty()
 					&& uh.isNumber(initialAmount) && uh.isNumber(minIncrement)
-					&& uh.isNumber(reserve))
+					&& uh.isNumber(reserve) && !uh.hasDatePassed(cd, ct))
 			{
 				String datetime=uh.convertToDateTime(cd, ct);
 				
 				uh.createAuction(itemType, clothingType, 
 						new String[]{company, size, material}, datetime, 
 						reserve, initialAmount, minIncrement);
+				
+				%>
+
+				<html>
+					<meta http-equiv="Refresh" content="0; url='../auction/HomePage.jsp'" />
+				</html>
+				
+				<%
 			}
 			else
 			{
-				System.out.println(cd != null);
-				System.out.println(!cd.trim().isEmpty());
-				System.out.println(ct != null);
-				System.out.println(!ct.trim().isEmpty());
-				System.out.println(reserve != null);
-				System.out.println(!reserve.trim().isEmpty());
-				System.out.println(initialAmount != null);
-				System.out.println(!initialAmount.trim().isEmpty());
-				System.out.println(minIncrement != null);
-				System.out.println(!minIncrement.trim().isEmpty());
-				System.out.println(uh.isNumber(initialAmount));
-				System.out.println(uh.isNumber(minIncrement));
-				System.out.println(uh.isNumber(reserve));
 				%>
 
 				<html>

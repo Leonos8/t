@@ -288,6 +288,19 @@ public class UserHandler
 		return valid;
 	}
 	
+	public boolean hasDatePassed(String date, String time)
+	{
+		boolean hasPassed=false;
+		
+		String inputDate=convertToDateTime(date, time);
+		String todayDate=getTime();
+		
+		
+		//hasPassed=
+		
+		return hasPassed;
+	}
+	
 	public boolean deleteAccount(String uname, String pword)
 	{
 		boolean isDeleted=false;
