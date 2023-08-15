@@ -1,12 +1,5 @@
-TODO: Remaining: 20
+TODO: Remaining: 18
 August 10:
-2) Create Databases. Maybe make a table of overall items, and then add each
-entry to a table specifically for that type of item. Make tables for the
-customer rep and admin too
-
-3) Create database for Items. Inside Items, have tables for different 
-Types of items. Inside Accounts, have tables for endUsers, customerReps,
-And Admin.
 
 6) Allow creation of auctions. User can set characteristics of item, set 
 closing date and time, and set a hidden minimum price

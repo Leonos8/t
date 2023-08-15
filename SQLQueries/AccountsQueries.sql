@@ -20,7 +20,7 @@ SELECT * FROM endUsers;
 
 select count(*) from endUsers;
 
-CREATE TABLE IF NOT EXISTS customerReps
+CREATE TABLE IF NOT EXISTS custReps
 (
 	uid int,
 	username varchar(32),
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS Administrator
     PRIMARY KEY(uid)
 );
 
-select * from customerreps;
+select * from custReps;
 
 INSERT INTO endUsers
 VALUES (3, 'cr', 'crpass', 'cr@gmail.com', '6092221111', '2001-01-01 00:00:00', true);

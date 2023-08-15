@@ -1,92 +1,377 @@
-Create DATABASE IF NOT EXISTS BuyMe;
-USE BuyMe;
-
-Create TABLE IF NOT EXISTS Reports
-(
-	num int,
-    name varchar(25),
-    type varchar(25),
-    #file pdf,
-    primary key(num)
-);
+Create DATABASE IF NOT EXISTS Accounts;
+USE Accounts;
 
 Create TABLE IF NOT EXISTS Administrator
 (
-	id int,
-    primary key(id)
+	uid int unique not null,
+	username varchar(256) not null,
+    password varchar(256) not null,
+    email varchar(256) not null,
+    phone varchar(256) not null,
+	lastAccessed datetime not null,
+    isActive bool not null,
+    primary key(uid)
 );
 
 Create TABLE IF NOT EXISTS custRep
 (
-	id int,
-    primary key(id)
+	uid int unique not null,
+	username varchar(256) not null,
+    password varchar(256) not null,
+    email varchar(256) not null,
+    phone varchar(256) not null,
+	lastAccessed datetime not null,
+    isActive bool not null,
+    primary key(uid)
 );
 
 Create TABLE IF NOT EXISTS endUsers
 (
-	uname varchar(20),
-    pwd varchar(20),
-    email varchar(50),
-    phone varchar(15),
-    primary key(uname)
+	uid int unique not null,
+	username varchar(256) not null,
+    password varchar(256) not null,
+    email varchar(256) not null,
+    phone varchar(256) not null,
+	lastAccessed datetime not null,
+    isActive bool not null,
+    primary key(uid)
 );
 
-Create TABLE IF NOT EXISTS Buyer
+Create DATABASE IF NOT EXISTS Auctions;
+USE Auctions;
+
+Create TABLE IF NOT EXISTS Auction
 (
-	buyerID int,
-    uname varchar(20),
-    primary key(buyerId,uname),
-    foreign key(uname) references endUsers(uname)
+	auctId int unique not null,
+    createdDate datetime not null,
+    endDate datetime not null,
+    isActive boolean not null,
+    initialAmount decimal(15, 2) not null,
+    increment decimal(15,2) not null,
+    reserveAmount decimal(15, 2) not null,
+    winningUser varchar(256), 
+    winningBidID varchar(256), 
+    winningBid decimal(15, 2),
+    primary key(auctId)
 );
 
-Create TABLE IF NOT EXISTS Seller
-(
-	sellerID int,
-    uname varchar(20),
-    primary key(sellerID,uname),
-    foreign key(uname) references endUsers(uname)
-);
+INSERT INTO Auction
+VALUES (8, '2001-01-01 23:34:32', '2001-01-01 23:34:32', 1, 32.43, 76.45, 100.56, null, null, null);
+
+select * from auction where isActive=true;
 
 Create TABLE IF NOT EXISTS Bid
 (
-	bidNum int,
-    amt float,
-    dt date,
-    tm time,
-    primary key(bidNum)
-);
-
-Create TABLE IF NOT EXISTS Ask
-(
-	askNum int,
-    amt float,
-    dt date,
-    tm time,
-    primary key(askNum)
+	auctID int not null,
+	bidID int not null auto_increment,
+    amt decimal(15, 2) not null,
+    maxBid decimal(15, 2),
+    dt datetime not null,
+    primary key(bidID)
 );
     
 Create TABLE IF NOT EXISTS Item
 (
-	vin int,
-    name varchar(25),
-    make varchar(15),
-    model varchar(20),
-    color varchar(15),
-    year year,
-    PRIMARY KEY(vin)
+	auctID int unique not null,
+	itemID int unique not null auto_increment,
+    category varchar(256),
+    subcategory varchar(256),
+    PRIMARY KEY(itemID)
 );
 
-Create TABLE IF NOT EXISTS Auction
+Create TABLE IF NOT EXISTS Clothing
 (
-	auctId int,
-    endTime time,
-    endDate date,
-    isActive boolean,
-    highBid float,
-    primary key(auctId)
+	itemID int not null auto_increment,
+    subcategory varchar(256),
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Bracelet
+(
+	itemID int not null auto_increment,
+    company varchar(256),
+    size varchar(256),
+    material varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Earrings
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    material varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Hats
+(
+	itemID int not null auto_increment references Item,
+    style varchar(256),
+    size varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Necklace
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    size varchar(256),
+    material varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Pants
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    mf char,
+    size varchar(256),
+    material varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Shirts
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    mf char,
+    size varchar(256),
+    material varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Shoes
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    model varchar(256),
+    mf char,
+    size varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Socks
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    size varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Undergarments
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    size varchar(256),
+    color varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Watch
+(
+	itemID int not null auto_increment references Item,
+    company varchar(256),
+    model varchar(256),
+    color varchar(256),
+    material varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Computers
+(
+	itemID int not null auto_increment references Item,
+    subcategory varchar(256),
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS AIO
+(
+	itemID int not null auto_increment references Item,
+    yearMade varchar(256),
+    company varchar(256),
+    model varchar(256),
+    screensize varchar(256),
+    color varchar(256),
+    processor varchar(256),
+    gpu varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Desktop
+(
+	itemID int not null auto_increment references Item,
+    yearMade varchar(256),
+    company varchar(256),
+    model varchar(256),
+    color varchar(256),
+    processor varchar(256),
+    gpu varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Laptop
+(
+	itemID int not null auto_increment references Item,
+    yearMade varchar(256),
+    company varchar(256),
+    model varchar(256),
+    screensize varchar(256),
+    color varchar(256),
+    processor varchar(256),
+    gpu varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Vehicles
+(
+	itemID int not null auto_increment references Item,
+    subcategory varchar(256),
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Airplane
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    itemCondition varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Boat
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    itemCondition varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Bus
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    itemCondition varchar(256),
+    mileage varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Car
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    color varchar(256),
+    itemCondition varchar(256),
+    mileage varchar(256),
+    fueltype varchar(256),
+    transmission varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Motorcycle
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    color varchar(256),
+    itemCondition varchar(256),
+    mileage varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Offroad
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    itemCondition varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Truck
+(
+	itemID int not null auto_increment references Item,
+    bodytype varchar(256),
+    yearMade varchar(256),
+    make varchar(256),
+    model varchar(256),
+    itemCondition varchar(256),
+    mileage varchar(256),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+Create TABLE IF NOT EXISTS Other
+(
+	itemID int not null auto_increment references Item,
+    itemName varchar(256),
+    itemDescription varchar(512),
+    endDate datetime references Auction,
+    reserveAmount float references Auction,
+    PRIMARY KEY(itemID)
+);
+
+#######################################################################################
+
+Create TABLE IF NOT EXISTS Car #removable
 (
 	vin int,
     cid int,
@@ -94,7 +379,7 @@ Create TABLE IF NOT EXISTS Car
     foreign key (vin) references Item(vin)
 );
 
-Create TABLE IF NOT EXISTS Motorcycle
+Create TABLE IF NOT EXISTS Motorcycle #removable
 (
 	vin int,
     mid int,
@@ -102,7 +387,7 @@ Create TABLE IF NOT EXISTS Motorcycle
     foreign key (vin) references Item(vin)
 );
 
-Create TABLE IF NOT EXISTS Truck
+Create TABLE IF NOT EXISTS Truck #removable
 (
 	vin int,
     tid int,

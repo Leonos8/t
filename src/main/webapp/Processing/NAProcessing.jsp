@@ -7,6 +7,8 @@
 
 	System.out.println("IT="+itemType);
 	
+	userHandler.UserHandler uh=new userHandler.UserHandler();
+	
 	if(itemType==null)
 	{
 		
@@ -25,19 +27,49 @@
 			String company=request.getParameter("company");
 			String size=request.getParameter("size");
 			String material=request.getParameter("material");
+			String cd=request.getParameter("cd"); //Closing date
+			String ct=request.getParameter("time"); //Closing time
+			String reserve=request.getParameter("reserve");
+			String initialAmount=request.getParameter("initial");
+			String minIncrement=request.getParameter("minInc");
 			
-			//add cd, ct, min
-			
-			//Add sql method here
-			
-			//Change link too be the opened link of the auction
-			%>
-			
-			<html>
-				<meta http-equiv="Refresh" content="0; url='../auction/HomePage.jsp'" />
-			</html>
-			
-			<%
+			if(cd != null && !cd.trim().isEmpty()
+					&& ct != null && !ct.trim().isEmpty()
+					&& reserve != null && !reserve.trim().isEmpty()
+					&& initialAmount != null && !initialAmount.trim().isEmpty()
+					&& minIncrement != null && !minIncrement.trim().isEmpty()
+					&& uh.isNumber(initialAmount) && uh.isNumber(minIncrement)
+					&& uh.isNumber(reserve))
+			{
+				String datetime=uh.convertToDateTime(cd, ct);
+				
+				uh.createAuction(itemType, clothingType, 
+						new String[]{company, size, material}, datetime, 
+						reserve, initialAmount, minIncrement);
+			}
+			else
+			{
+				System.out.println(cd != null);
+				System.out.println(!cd.trim().isEmpty());
+				System.out.println(ct != null);
+				System.out.println(!ct.trim().isEmpty());
+				System.out.println(reserve != null);
+				System.out.println(!reserve.trim().isEmpty());
+				System.out.println(initialAmount != null);
+				System.out.println(!initialAmount.trim().isEmpty());
+				System.out.println(minIncrement != null);
+				System.out.println(!minIncrement.trim().isEmpty());
+				System.out.println(uh.isNumber(initialAmount));
+				System.out.println(uh.isNumber(minIncrement));
+				System.out.println(uh.isNumber(reserve));
+				%>
+
+				<html>
+					<meta http-equiv="Refresh" content="0; url='../auction/NewAuctionPage.jsp'" />
+				</html>
+				
+				<%
+			}
 		}
 		else if(clothingType.equals("earrings"))
 		{

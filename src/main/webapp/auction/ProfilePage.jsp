@@ -15,7 +15,7 @@
 		<title>Profile</title>
 		
 		<style>
-			#popupbox
+			#DAPopupbox
 			{
 				margin: 0; 
 				margin-left: 40%; 
@@ -31,45 +31,24 @@
 				font-family: arial; 
 				visibility: hidden; 
 			}
-		</style>
-		
-		<script language="JavaScript" type="text/javascript">			
-			function changeLink()
-			{
-				<% 
-					String user=(String)session.getAttribute("PROFILE_USER");
-				%>
-				
-				var jsUser = "<%=user%>"
-				
-				console.log(jsUser);
-				
-				window.history.replaceState({}, "", jsUser);
-
-			}
-		
-			function login(showhide)
-			{
-				if(showhide == "show")
-				{
-    				document.getElementById('popupbox').style.visibility="visible";
-				}else if(showhide == "hide")
-				{
-    				document.getElementById('popupbox').style.visibility="hidden"; 
-    				location.replace("ProfilePage.jsp")
-				}
-			}
 			
-			function goToHome()
+			#RPPopupbox
 			{
-				location.replace("HomePage.jsp")
+				margin: 0; 
+				margin-left: 40%; 
+				margin-right: 40%;
+				margin-top: 50px; 
+				padding-top: 10px; 
+				width: 20%; 
+				height: 150px; 
+				position: absolute; 
+				background: #FBFBF0; 
+				border: solid #000000 2px; 
+				z-index: 9; 
+				font-family: arial; 
+				visibility: hidden; 
 			}
-		</script>
 		
-		<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
-		
-		
-		<style>
 			.fa-user
 			{
 				background: #D3D3D3;
@@ -91,7 +70,7 @@
   				text-align: center;
 			}
 			
-			.deleteAccountBtn 
+			.button 
   			{
   				float: right;
   				text-align: right;
@@ -109,6 +88,65 @@
   				font-size:35px;
   			}
 		</style>
+		
+		<script language="JavaScript" type="text/javascript">			
+			function changeLink()
+			{
+				<% 
+					String user=(String)session.getAttribute("PROFILE_USER");
+				%>
+				
+				var jsUser = "<%=user%>"
+				
+				console.log(jsUser);
+				
+				window.history.replaceState({}, "", jsUser);
+
+			}
+			
+			function goToHome()
+			{
+				location.replace("HomePage.jsp")
+			}
+			
+			function resetPassword()
+			{
+				<%
+					//userHandler.UserHandler uh=new userHandler.UserHandler();
+				
+					System.out.println("H");
+				%>
+				
+				alert("Password Changed!");
+			}
+		
+			function resetPassword(showhide)
+			{
+				if(showhide == "show")
+				{
+    				document.getElementById('RPPopupbox').style.visibility="visible";
+				}else if(showhide == "hide")
+				{
+    				document.getElementById('RPPopupbox').style.visibility="hidden"; 
+    				location.replace("ProfilePage.jsp")
+				}
+			}
+			
+			function verifyCredentials(showhide)
+			{
+				if(showhide == "show")
+				{
+    				document.getElementById('DAPopupbox').style.visibility="visible";
+				}else if(showhide == "hide")
+				{
+    				document.getElementById('DAPopupbox').style.visibility="hidden"; 
+    				location.replace("ProfilePage.jsp")
+				}
+			}
+		</script>
+		
+		<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+		
 	</head>
 	
 	<body onload="changeLink()">
@@ -124,7 +162,21 @@
 			<% out.println(session.getAttribute("PROFILE_USER")); %>
 		</div>
 		
-		<div id="popupbox"> 
+		<div id="RPPopupbox"> 
+			<form name="login" action="../Processing/RIProcessing.jsp" method="post">
+				<center>Username:</center>
+				<center><input name="RPuname" size="14" /></center>
+				<center>New Password:</center>
+				<center><input name="RPpword" type="password" size="14" /></center>
+				<center>Confirm Password:</center>
+				<center><input name="RPcpword" type="password" size="14" /></center>
+				<center><input type="submit" name="submit" value="Reset Password" /></center>
+			</form>
+			<br/>
+			<center><a href="javascript:resetPassword('hide');">close</a></center> 
+		</div> 
+		
+		<div id="DAPopupbox"> 
 			<form name="login" action="../Processing/DAProcessing.jsp" method="post">
 				<center>Username:</center>
 				<center><input name="DAuname" size="14" /></center>
@@ -133,7 +185,7 @@
 				<center><input type="submit" name="submit" value="Verify" /></center>
 			</form>
 			<br/>
-			<center><a href="javascript:login('hide');">close</a></center> 
+			<center><a href="javascript:verifyCredentials('hide');">close</a></center> 
 		</div> 
 		
 		<%
@@ -145,8 +197,14 @@
 				|| uh.isAdmin(currentUser)) //Add any profile settings here
 		{
 			%>
-				<form action="javascript:login('show')" method="post">
-					<div class="deleteAccountBtn">
+				<form action="javascript:resetPassword('show')" method="post">
+					<div class="button">
+        				<button>Reset Password</button>
+        			</div>
+        		</form>
+			
+				<form action="javascript:verifyCredentials('show')" method="post">
+					<div class="button">
         				<button>Delete Account</button>
         			</div>
         		</form>
