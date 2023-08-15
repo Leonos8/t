@@ -1,8 +1,4 @@
-TODO: Remaining: 18
-August 10:
-
-6) Allow creation of auctions. User can set characteristics of item, set 
-closing date and time, and set a hidden minimum price
+TODO: Remaining: 17
 
 August 11:
 7) Let a customer make a bid. Allow user to select whether they want automatic

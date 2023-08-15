@@ -1,0 +1,33 @@
+At very top:
+<%
+	String userid=(String)session.getAttribute("LOGIN_USER");
+	if(userid==null)
+	{
+    	response.sendRedirect("../login/LoginPage.jsp");
+    	return; //the return is important; forces redirect to go now
+	}
+%>
+
+
+
+.homePageLogo
+  			{
+  				background-color: #0080fe
+  				text-align: center;
+  				font-size:50px;
+  				cursor: pointer;
+  				border: 2px solid black;
+  			}
+  			
+
+function goToHome()
+			{
+				location.replace("HomePage.jsp")
+			}
+
+
+
+
+<div class="homePageLogo">
+			<a onclick=goToHome()>Online Auction</a>
+		</div>

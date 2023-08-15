@@ -54,6 +54,7 @@
 				background: #D3D3D3;
 				color: #FFFFFF;
   				padding: 0.25em 0.25em;
+  				position: relative;
 			}
 			
 			.circle
@@ -79,13 +80,41 @@
   			
   			.homePageLogo
   			{
+  				background-color: #0080fe
   				text-align: center;
   				font-size:50px;
+  				cursor: pointer;
+  				border: 2px solid black;
   			}
   			.displayUser
   			{
   				font-weight: bold;
   				font-size:35px;
+  				text-align: center;
+  			}
+  			
+  			.adminPage
+  			{
+				float: left;
+  				text-align: left;
+     			width: 100%;  				
+  			}
+  			
+  			.nav 
+  			{
+  				list-style-type: none;
+  				text-align: center; 
+  				background-color: #0080fe;
+  				padding: 0;
+  				margin: 0;
+  				border: 1px solid black;
+  			}
+  			
+  			.nav li
+  			{
+  				display: inline-block;
+  				font-size: 20px;
+  				padding: 20px;
   			}
 		</style>
 		
@@ -107,17 +136,6 @@
 			function goToHome()
 			{
 				location.replace("HomePage.jsp")
-			}
-			
-			function resetPassword()
-			{
-				<%
-					//userHandler.UserHandler uh=new userHandler.UserHandler();
-				
-					System.out.println("H");
-				%>
-				
-				alert("Password Changed!");
 			}
 		
 			function resetPassword(showhide)
@@ -155,7 +173,7 @@
 		</div>
 	
 		<div>
-			<i class="fa fa-user circle center"></i>
+			<center><i class="fa fa-user circle center"></i></center>
 		</div>
 		
 		<div class="displayUser">
@@ -192,24 +210,44 @@
 		String currentUser=(String)session.getAttribute("LOGIN_USER");
 		String profileUser=(String)session.getAttribute("PROFILE_USER");
 		userHandler.UserHandler uh=new userHandler.UserHandler();
+		
 		if(currentUser.equals(profileUser) 
 				|| uh.isCustomerRep(currentUser)
 				|| uh.isAdmin(currentUser)) //Add any profile settings here
 		{
 			%>
-				<form action="javascript:resetPassword('show')" method="post">
-					<div class="button">
-        				<button>Reset Password</button>
-        			</div>
-        		</form>
-			
-				<form action="javascript:verifyCredentials('show')" method="post">
-					<div class="button">
-        				<button>Delete Account</button>
-        			</div>
-        		</form>
-			<%
+				<ul class="nav">
+					<%
+						if(uh.isAdmin(currentUser))
+						{
+							%>
+								<li>
+									<div class="adminPage">
+										<button><a href="AdminPage.jsp">Admin Tools</a></button>
+									</div>
+								</li>
+							<%
+						}
+					%>
+					
+					<li>
+						<form action="javascript:resetPassword('show')" method="post">
+							<div class="button">
+        						<button>Reset Password</button>
+        					</div>
+        				</form>
+					</li>
+					
+					<li>
+						<form action="javascript:verifyCredentials('show')" method="post">
+							<div class="button">
+        						<button>Delete Account</button>
+        					</div>
+        				</form>
+					</li>
+				</ul>
+			<%	
 		}
-		%>
+	%>
 	</body>
 </html>

@@ -22,6 +22,11 @@ public class UserHandler
 	{
 		String datetime=date+" "+time;
 		
+		if(time.split(":").length==2)
+		{
+			datetime+=":00";
+		}
+		
 		return datetime;
 	}
 	
