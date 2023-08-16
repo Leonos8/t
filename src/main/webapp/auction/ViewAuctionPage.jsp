@@ -108,7 +108,7 @@
     				<%
     					java.util.ArrayList<Object[]> bids=uh.getBids(aid);
     				
-    					for(int i=bids.size()-1; i>0; i--)
+    					for(int i=bids.size()-1; i>=0; i--)
     					{
     						%>
     							<tr>
