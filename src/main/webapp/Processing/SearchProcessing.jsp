@@ -58,6 +58,13 @@
     						margin-top: 8px;
     						padding: 8px;
   						}
+  						
+  						.itemTypeSelect
+  						{
+  							vertical-align: middle;
+  							display-inline: block;
+  							margin-right: 5%;
+  						}
 					</style>
 				</head>
 				
@@ -66,6 +73,15 @@
 						<form action="../Processing/SearchProcessing.jsp">
       						<input type="text" placeholder="Search..." name="search">
       						<button type="submit" class=searchButton><i class="fa fa-search"></i></button>
+    					
+    						<div class="itemTypeSelect">
+    							<select name="itemType" id="itemType">
+									<option value="clothing">Clothing</option>
+   	 								<option value="computers">Computers</option>
+   	 								<option value="vehicles">Vehicles</option>
+    								<option value="other">Other</option>
+  								</select>
+    						</div>
     					</form>
 					</div>
 			

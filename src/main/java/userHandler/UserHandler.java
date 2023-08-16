@@ -452,6 +452,20 @@ public class UserHandler
 		return isDeleted;
 	}
 	
+	public boolean deleteAuction(int auctID)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="UPDATE "+auctionTable+" SET isActive=false "
+				+ "WHERE auctID="+auctID+";";
+		
+		sql.updateTable(query);
+		
+		return status;
+	}
+	
 	public boolean deleteBid(int bidID)
 	{
 		boolean status=true;
@@ -459,7 +473,7 @@ public class UserHandler
 		DBSQL sql=new DBSQL("Auctions");
 		
 		String query="UPDATE "+bidTable+" SET isActive=false "
-				+ "WHERE bidID=\'"+bidID+"\';";
+				+ "WHERE bidID="+bidID+";";
 		
 		sql.updateTable(query);
 		
@@ -1338,6 +1352,8 @@ public class UserHandler
 		DBSQL sql=new DBSQL("Accounts");
 		
 		String query="SELECT * FROM "+euTable+" WHERE username=\'"+uname+"\';";
+		
+		System.out.println(query);
 		
 		ArrayList<Object[]> results=sql.select(query);
 		

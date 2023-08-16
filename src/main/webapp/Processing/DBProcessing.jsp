@@ -9,7 +9,7 @@
 	
 	userHandler.UserHandler uh=new userHandler.UserHandler();
 	
-	if(currentUser.equals(uname) && uh.verifyUser(uname, pword));
+	if(currentUser.equals(uname) && uh.verifyUser(uname, pword))
 	{
 		uh.deleteBid(bidID);
 	}

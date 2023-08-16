@@ -24,6 +24,20 @@
 			.newBidButton
 			{
 				font-size: 25px;
+								display: inline-block;
+				
+			}
+			
+			.deleteAuctionDiv
+			{
+				float: right;
+				margin-top: 10px;
+				margin-Left 10px;
+			}
+			
+			.deleteAuctionButton
+			{
+				font-size: 25px;
 			}
 			
 			.bidsDisplay
@@ -67,6 +81,23 @@
 				font-family: arial; 
 				visibility: hidden; 
 			}
+			
+			#deleteAuctionPopup
+			{
+				margin: 0; 
+				margin-left: 40%; 
+				margin-right: 40%;
+				margin-top: 50px; 
+				padding-top: 10px; 
+				width: 20%; 
+				height: 150px; 
+				position: absolute; 
+				background: #FBFBF0; 
+				border: solid #000000 2px; 
+				z-index: 9; 
+				font-family: arial; 
+				visibility: hidden; 
+			}
 		</style>
 		
 		<script>
@@ -93,6 +124,18 @@
 				window.history.replaceState({}, "", jsItem);
 			}
 			
+			function deleteAuctionVerification(showhide)
+			{
+				if(showhide == "show")
+				{
+    				document.getElementById('deleteAuctionPopup').style.visibility="visible";
+				}else if(showhide == "hide")
+				{
+    				document.getElementById('deleteAuctionPopup').style.visibility="hidden"; 
+    				location.replace("ViewAuctionPage.jsp")
+				}
+			}
+			
 			function deleteBidVerification(showhide)
 			{
 				if(showhide == "show")
@@ -101,7 +144,7 @@
 				}else if(showhide == "hide")
 				{
     				document.getElementById('deleteBidPopup').style.visibility="hidden"; 
-    				location.replace("ProfilePage.jsp")
+    				location.replace("ViewAuctionPage.jsp")
 				}
 			}
 		
@@ -118,6 +161,12 @@
 			</form>
 		</div>
 		
+		<div class="deleteAuctionDiv">
+			<form action="javascript:deleteAuctionVerification('show')">
+				<button class="deleteAuctionButton">Delete Auction</button>
+			</form>
+		</div>
+		
 		<div id="deleteBidPopup"> 
 			<form name="login" action="../Processing/DBProcessing.jsp" method="post">
 				<center>Username:</center>
@@ -128,6 +177,18 @@
 			</form>
 			<br/>
 			<center><a href="javascript:deleteBidVerification('hide');">close</a></center> 
+		</div> 
+		
+		<div id="deleteAuctionPopup"> 
+			<form name="da" action="../Processing/DelAucProcessing.jsp" method="post">
+				<center>Username:</center>
+				<center><input name="uname" size="14" /></center>
+				<center>Password:</center>
+				<center><input name="pword" type="password" size="14" /></center>
+				<center><input type="submit" name="submit" value="Verify" /></center>
+			</form>
+			<br/>
+			<center><a href="javascript:deleteAuctionVerification('hide');">close</a></center> 
 		</div> 
 		
 		<div class="bidsDisplay">
