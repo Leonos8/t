@@ -43,6 +43,7 @@ USE Auctions;
 Create TABLE IF NOT EXISTS Auction
 (
 	auctId int unique not null,
+    createdBy varchar(256) not null,
     createdDate datetime not null,
     endDate datetime not null,
     isActive boolean not null,
@@ -55,25 +56,23 @@ Create TABLE IF NOT EXISTS Auction
     primary key(auctId)
 );
 
-INSERT INTO Auction
-VALUES (8, '2001-01-01 23:34:32', '2001-01-01 23:34:32', 1, 32.43, 76.45, 100.56, null, null, null);
-
-select * from auction where isActive=true;
-
 Create TABLE IF NOT EXISTS Bid
 (
 	auctID int not null,
-	bidID int not null auto_increment,
+	bidID int not null,
     amt decimal(15, 2) not null,
     maxBid decimal(15, 2),
+    createdBy varchar(32) not null,
     dt datetime not null,
     primary key(bidID)
 );
-    
+
+select * from Administrator;
+
 Create TABLE IF NOT EXISTS Item
 (
 	auctID int unique not null,
-	itemID int unique not null auto_increment,
+	itemID int unique not null,
     category varchar(256),
     subcategory varchar(256),
     PRIMARY KEY(itemID)
@@ -81,137 +80,117 @@ Create TABLE IF NOT EXISTS Item
 
 Create TABLE IF NOT EXISTS Clothing
 (
-	itemID int not null auto_increment,
+	itemID int not null,
     subcategory varchar(256),
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Bracelet
 (
-	itemID int not null auto_increment,
+	itemID int not null,
     company varchar(256),
     size varchar(256),
     material varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Earrings
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     material varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Hats
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     style varchar(256),
     size varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Necklace
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     size varchar(256),
     material varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Pants
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     mf char,
     size varchar(256),
     material varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Shirts
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     mf char,
     size varchar(256),
     material varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Shoes
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     model varchar(256),
     mf char,
     size varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Socks
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     size varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Undergarments
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     size varchar(256),
     color varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Watch
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     company varchar(256),
     model varchar(256),
     color varchar(256),
     material varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Computers
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     subcategory varchar(256),
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS AIO
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     yearMade varchar(256),
     company varchar(256),
     model varchar(256),
@@ -219,28 +198,24 @@ Create TABLE IF NOT EXISTS AIO
     color varchar(256),
     processor varchar(256),
     gpu varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Desktop
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     yearMade varchar(256),
     company varchar(256),
     model varchar(256),
     color varchar(256),
     processor varchar(256),
     gpu varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Laptop
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     yearMade varchar(256),
     company varchar(256),
     model varchar(256),
@@ -248,61 +223,53 @@ Create TABLE IF NOT EXISTS Laptop
     color varchar(256),
     processor varchar(256),
     gpu varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Vehicles
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     subcategory varchar(256),
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Airplane
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
     model varchar(256),
     itemCondition varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Boat
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
     model varchar(256),
     itemCondition varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Bus
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
     model varchar(256),
     itemCondition varchar(256),
     mileage varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Car
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
@@ -312,14 +279,12 @@ Create TABLE IF NOT EXISTS Car
     mileage varchar(256),
     fueltype varchar(256),
     transmission varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Motorcycle
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
@@ -327,47 +292,78 @@ Create TABLE IF NOT EXISTS Motorcycle
     color varchar(256),
     itemCondition varchar(256),
     mileage varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Offroad
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
     model varchar(256),
     itemCondition varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Truck
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     bodytype varchar(256),
     yearMade varchar(256),
     make varchar(256),
     model varchar(256),
     itemCondition varchar(256),
     mileage varchar(256),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
 
 Create TABLE IF NOT EXISTS Other
 (
-	itemID int not null auto_increment references Item,
+	itemID int not null,
     itemName varchar(256),
     itemDescription varchar(512),
-    endDate datetime references Auction,
-    reserveAmount float references Auction,
     PRIMARY KEY(itemID)
 );
+
+Create DATABASE IF NOT EXISTS Forum;
+Use Forum;
+
+Create TABLE IF NOT EXISTS Questions
+(
+	questionID int not null,
+    title varchar (256) not null,
+    Question varchar(1024),
+    askedBy varchar(32) not null,
+    dtAsked datetime not null,
+    PRIMARY KEY(questionID)
+);
+
+Create TABLE IF NOT EXISTS Answers
+(
+	answerID int not null,
+    questionID int not null,
+    answer varchar(1024) not null,
+    answerUser varchar(32) not null,
+    dtAnswered datetime not null,
+	PRIMARY KEY(answerID)
+);
+
+
+
+
+
+SELECT * FROM Watch WHERE Company LIKE '%car'% OR Model LIKE '%car'% OR Color LIKE '%car'% OR Material LIKE '%car'%;
+
+
+
+
+
+ UNION SELECT * FROM Item WHERE Category LIKE '%car%' OR Subcategory LIKE '%car%' UNION SELECT * FROM Clothing WHERE Subcategory LIKE '%car%' UNION SELECT * FROM Bracelet WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Earrings WHERE Company LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Hats WHERE Style LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Necklace WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Pants WHERE Company LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Shirts WHERE Company LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Shoes WHERE Company LIKE '%car%' OR Model LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Socks WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Undergarments WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Watch WHERE Company LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Computers WHERE Subcategory LIKE '%car%' UNION SELECT * FROM AIO WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Screensize LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Desktop WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Laptop WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Screensize LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Vehicles WHERE Subcategory LIKE '%car%' UNION SELECT * FROM Airplane WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Boat WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Bus WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Car WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' OR FuelType LIKE '%car%' OR Transmission LIKE '%car%' UNION SELECT * FROM Motorcycle WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Offroad WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Truck WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Other WHERE ItemName LIKE '%car%' OR ItemDescription LIKE '%car%'
+
+
+
+Select * from CAR;
 
 #######################################################################################
 

@@ -50,6 +50,16 @@
 				width:15%;
 				font-size: 18px;
 			}
+			
+			.homePageLogo
+  			{
+  				background-color: #0080fe
+  				text-align: center;
+  				font-size:50px;
+  				cursor: pointer;
+  				border: 2px solid black;
+  				text-align: center;
+  			}
 		</style>
 		
 		<script>
@@ -69,26 +79,52 @@
 			document.getElementById(cityName).style.display = "block";
 			evt.currentTarget.className += " active";
 		}
+		
+		function goToHome()
+		{
+			location.replace("HomePage.jsp")
+		}
+
 		</script>
 	</head>
 	<body>
+		<div class="homePageLogo">
+			<a onclick=goToHome()>Online Auction</a>
+		</div>
+	
 		<div class="tab">
   			<button class="tablinks" onclick="openCity(event, 'Accounts')">Accounts</button>
 			<button class="tablinks" onclick="openCity(event, 'Reports')">Reports</button>
 		</div>
-	
+		
 		<div id="Accounts" class="tabcontent">
   			<h3>Accounts</h3>
-  			<form action="CreateCRPage.jsp">
-  				<p><button class=button>Create Customer Representative</button></p>
-  			</form>
+  				<%
+					userHandler.UserHandler uh=new userHandler.UserHandler();
+					String currentUser=(String)session.getAttribute("LOGIN_USER");
+					if(uh.isAdmin(currentUser))
+					{
+						%>
+							<form action="CreateCRPage.jsp">
+  								<p><button class=button>Create Customer Representative</button></p>
+  							</form>
+						<%
+					}
+				%>
 		</div>
 		
 		<div id="Reports" class="tabcontent">
   			<h3>Reports</h3>
-  			<form action="CreateCRPage.jsp"> <!Will change to report>
-  				<p><button class=button>Generate Sales Summary Report</button></p>
-  			</form>
+  			<%
+  				if(uh.isAdmin(currentUser))
+				{
+					%>
+						<form action="CreateCRPage.jsp"> <!Will change to report>
+  							<p><button class=button>Generate Sales Summary Report</button></p>
+  						</form>
+					<%
+				}
+  			%>
 		</div>
 	</body>
 </html>

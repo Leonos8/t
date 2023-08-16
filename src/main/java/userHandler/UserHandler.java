@@ -234,17 +234,6 @@ public class UserHandler
 		return status;
 	}
 	
-	public Object[] getAuctionInfo(int auctionID)
-	{
-		DBSQL sql=new DBSQL("Auctions");
-		
-		String auctionQuery="SELECT * FROM "+auctionTable+" WHERE auctID="+auctionID+";";
-		
-		Object[] auctionInfo=sql.select(auctionQuery).get(0);
-		
-		return auctionInfo;
-	}
-	
 	public boolean createBid(String user, int auctionID, double amount, double max)
 	{
 		boolean status=true;
@@ -261,11 +250,12 @@ public class UserHandler
 		{
 			String bidQuery="INSERT INTO "+bidTable+" VALUES("
 					+auctionID+", "+bidID+", "+amount+", "+max+", "
-					+"\'"+user+"\', \'"+getTime()+"\');";
+					+"\'"+user+"\', \'"+getTime()+"\', "+true+");";
 			
 			sql.updateTable(bidQuery);
 		}
-		else if(amount>Double.parseDouble(String.valueOf(highestBid[2])))
+		else if(amount>Double.parseDouble(String.valueOf(highestBid[2]))
+				&& amount-Double.parseDouble(String.valueOf(highestBid[2]))>=Double.parseDouble(String.valueOf(auctionInfo[6])))
 		{
 			String bidQuery="INSERT INTO "+bidTable+" VALUES("
 					+auctionID+", "+bidID+", "+amount+", "+max+", "
@@ -288,6 +278,7 @@ public class UserHandler
 		System.out.println("PWORD="+pword);
 		System.out.println("e="+email);
 		System.out.println("ph="+phone);
+		
 		
 		int valid=-1;
 		
@@ -410,6 +401,71 @@ public class UserHandler
 		return status;
 	}
 	
+	public boolean deleteAccount(String uname, String pword)
+	{
+		boolean isDeleted=false;
+		
+		DBSQL sql=new DBSQL("Accounts");
+		
+		String query="SELECT * FROM endUsers "
+				+"WHERE username=\'"+uname+"\' AND isActive=true;";
+		
+		ArrayList<Object[]> data=sql.select(query);
+		
+		if(data.size()!=1)
+		{
+			System.out.println(1);
+			System.out.println("Incorrect information");
+			
+			isDeleted=false;
+		}
+		else if(!data.get(0)[2].equals(pword))
+		{
+			System.out.println(2);
+			System.out.println("Incorrect information");
+			
+			isDeleted=false;
+		}
+		else if(uname.contains("\"")
+				|| uname.length()>32)
+		{
+			System.out.println(3);
+			System.out.println("Incorrect information");
+				
+			isDeleted=false;
+		}
+		else if(pword.contains("\"")
+			|| pword.length()>32)
+		{
+			System.out.println(3);
+			System.out.println("Incorrect information");
+					
+			isDeleted=false;
+		}
+			else
+			{
+				sql.delete(uname);
+				
+				isDeleted=true;
+			}
+		
+		return isDeleted;
+	}
+	
+	public boolean deleteBid(int bidID)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="UPDATE "+bidTable+" SET isActive=false "
+				+ "WHERE bidID=\'"+bidID+"\';";
+		
+		sql.updateTable(query);
+		
+		return status;
+	}
+	
 	public ArrayList<Object[]> getAnswers(int qid)
 	{
 		DBSQL sql=new DBSQL("Forum");
@@ -419,6 +475,17 @@ public class UserHandler
 		ArrayList<Object[]> answers=sql.select(query);
 		
 		return answers;
+	}
+	
+	public Object[] getAuctionInfo(int auctionID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String auctionQuery="SELECT * FROM "+auctionTable+" WHERE auctID="+auctionID+";";
+		
+		Object[] auctionInfo=sql.select(auctionQuery).get(0);
+		
+		return auctionInfo;
 	}
 	
 	public ArrayList<Object[]> getBids(int auctionID)
@@ -437,6 +504,7 @@ public class UserHandler
 		DBSQL sql=new DBSQL("Auctions");
 		
 		String query="SELECT * FROM "+bidTable+" WHERE auctID="+auctionID
+				+" AND isActive=true, "
 				+" HAVING bidID=(SELECT MAX(bidID) FROM "+bidTable
 				+" WHERE auctID="+auctionID+");";
 		
@@ -607,57 +675,6 @@ public class UserHandler
 		//hasPassed=
 		
 		return hasPassed;
-	}
-	
-	public boolean deleteAccount(String uname, String pword)
-	{
-		boolean isDeleted=false;
-		
-		DBSQL sql=new DBSQL("Accounts");
-		
-		String query="SELECT * FROM endUsers "
-				+"WHERE username=\'"+uname+"\' AND isActive=true;";
-		
-		ArrayList<Object[]> data=sql.select(query);
-		
-		if(data.size()!=1)
-		{
-			System.out.println(1);
-			System.out.println("Incorrect information");
-			
-			isDeleted=false;
-		}
-		else if(!data.get(0)[2].equals(pword))
-		{
-			System.out.println(2);
-			System.out.println("Incorrect information");
-			
-			isDeleted=false;
-		}
-		else if(uname.contains("\"")
-				|| uname.length()>32)
-		{
-			System.out.println(3);
-			System.out.println("Incorrect information");
-				
-			isDeleted=false;
-		}
-		else if(pword.contains("\"")
-			|| pword.length()>32)
-		{
-			System.out.println(3);
-			System.out.println("Incorrect information");
-					
-			isDeleted=false;
-		}
-			else
-			{
-				sql.delete(uname);
-				
-				isDeleted=true;
-			}
-		
-		return isDeleted;
 	}
 	
 	public String getTime()
@@ -1312,5 +1329,30 @@ public class UserHandler
 		}
 		
 		return searchList;
+	}
+	
+	public boolean verifyUser(String uname, String pword)
+	{
+		boolean verified=false;
+		
+		DBSQL sql=new DBSQL("Accounts");
+		
+		String query="SELECT * FROM "+euTable+" WHERE username=\'"+uname+"\';";
+		
+		ArrayList<Object[]> results=sql.select(query);
+		
+		if(results.size()!=1)
+		{
+			return verified;
+		}
+		else if(!(String.valueOf(results.get(0)[2]).equals(pword)))
+		{
+			return verified;
+		}
+		else
+		{
+			verified=true;
+			return verified;
+		}
 	}
 }

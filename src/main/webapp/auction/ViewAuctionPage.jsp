@@ -50,7 +50,23 @@
   				background-color: #333;
   				color: #fff;
 			}
-  			
+			
+  			#deleteBidPopup
+			{
+				margin: 0; 
+				margin-left: 40%; 
+				margin-right: 40%;
+				margin-top: 50px; 
+				padding-top: 10px; 
+				width: 20%; 
+				height: 150px; 
+				position: absolute; 
+				background: #FBFBF0; 
+				border: solid #000000 2px; 
+				z-index: 9; 
+				font-family: arial; 
+				visibility: hidden; 
+			}
 		</style>
 		
 		<script>
@@ -76,6 +92,18 @@
 				
 				window.history.replaceState({}, "", jsItem);
 			}
+			
+			function deleteBidVerification(showhide)
+			{
+				if(showhide == "show")
+				{
+    				document.getElementById('deleteBidPopup').style.visibility="visible";
+				}else if(showhide == "hide")
+				{
+    				document.getElementById('deleteBidPopup').style.visibility="hidden"; 
+    				location.replace("ProfilePage.jsp")
+				}
+			}
 		
 		</script>
 	</head>
@@ -89,6 +117,18 @@
 				<button class="newBidButton">New Bid</button>
 			</form>
 		</div>
+		
+		<div id="deleteBidPopup"> 
+			<form name="login" action="../Processing/DBProcessing.jsp" method="post">
+				<center>Username:</center>
+				<center><input name="uname" size="14" /></center>
+				<center>Password:</center>
+				<center><input name="pword" type="password" size="14" /></center>
+				<center><input type="submit" name="submit" value="Verify" /></center>
+			</form>
+			<br/>
+			<center><a href="javascript:deleteBidVerification('hide');">close</a></center> 
+		</div> 
 		
 		<div class="bidsDisplay">
 			<table style="width: 100%; border: 2px solid black;">
@@ -107,17 +147,36 @@
     				
     				<%
     					java.util.ArrayList<Object[]> bids=uh.getBids(aid);
-    				
+    					String currentUser=(String) session.getAttribute("LOGIN_USER");
+    					
     					for(int i=bids.size()-1; i>=0; i--)
     					{
-    						%>
-    							<tr>
-    								<td><% out.println(bids.get(i)[1]); %></td>
-    								<td><% out.println(bids.get(i)[2]); %></td>
-    								<td><% out.println(bids.get(i)[4]); %></td>
-    								<td><% out.println(bids.get(i)[5]); %></td>
-    							</tr>
-    						<%
+    						if((boolean)bids.get(i)[6])
+    						{
+    							if(uh.isCustomerRep(currentUser)
+        								|| uh.isAdmin(currentUser))
+        						{
+        							%>
+    									<tr>
+    										<td onclick="javascript:deleteBidVerification('show')" onclick="<% session.setAttribute("BID_SELECTED", bids.get(i)[1]); %>"><% out.println(bids.get(i)[1]); %></td>
+    										<td onclick="javascript:deleteBidVerification('show')" onclick="<% session.setAttribute("BID_SELECTED", bids.get(i)[1]); %>"><% out.println(bids.get(i)[2]); %></td>
+    										<td onclick="javascript:deleteBidVerification('show')" onclick="<% session.setAttribute("BID_SELECTED", bids.get(i)[1]); %>"><% out.println(bids.get(i)[4]); %></td>
+    										<td onclick="javascript:deleteBidVerification('show')" onclick="<% session.setAttribute("BID_SELECTED", bids.get(i)[1]); %>"><% out.println(bids.get(i)[5]); %></td>
+    									</tr>
+    								<%
+        						}
+        						else
+        						{
+        							%>
+        								<tr>
+        									<td><% out.println(bids.get(i)[1]); %></td>
+        									<td><% out.println(bids.get(i)[2]); %></td>
+        									<td><% out.println(bids.get(i)[4]); %></td>
+        									<td><% out.println(bids.get(i)[5]); %></td>
+        								</tr>
+        							<%
+        						}
+    						}
     					}
     				%>
   				</tbody>

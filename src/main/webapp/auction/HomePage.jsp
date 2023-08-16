@@ -137,7 +137,8 @@
 						<%
 							String currentUser=(String)session.getAttribute("LOGIN_USER");
 							userHandler.UserHandler uh=new userHandler.UserHandler();
-							if(uh.isAdmin(currentUser))
+							if(uh.isCustomerRep(currentUser)
+									|| uh.isAdmin(currentUser))
 							{
 								%>
 								<li><a href="AdminPage.jsp">Admin</a></li>
