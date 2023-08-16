@@ -1,5 +1,6 @@
 package userHandler;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -30,14 +31,14 @@ public class UserHandler
 		uh.closePastAuctions();
 	}
 	
-	public ArrayList<Integer> closePastAuctions()
+	public ArrayList<Object[]> closePastAuctions()
 	{
 		DBSQL sql=new DBSQL("Auctions");
 		
 		String query="SELECT * FROM "+auctionTable+" WHERE isActive=true";
 		
 		ArrayList<Object[]> auctions=sql.select(query);
-		ArrayList<Integer> expiredAuctionID=new ArrayList<>();
+		ArrayList<Object[]> expiredAuctions=new ArrayList<>();
 		
 		for(int i=0; i<auctions.size(); i++)
 		{
@@ -46,16 +47,19 @@ public class UserHandler
 
 			if(hasDatePassed(date, time))
 			{
-				expiredAuctionID.add((int)auctions.get(i)[0]);
+				expiredAuctions.add(auctions.get(i));
 			}
 		}
 		System.out.println("1");
 		ArrayList<Object[]> auctionWinners=new ArrayList<Object[]>();
-		for(int i=0; i<expiredAuctionID.size(); i++)
+		for(int i=0; i<expiredAuctions.size(); i++)
 		{
-			auctionWinners.add(getHighestBid(expiredAuctionID.get(i)));
-			System.out.println(getHighestBid(expiredAuctionID.get(i)));
-
+			Object[] highest=getHighestBid((int)expiredAuctions.get(i)[0]);
+			if((double)highest[2]>=(double)expiredAuctions.get(i)[7])
+			{
+				auctionWinners.add(getHighestBid((int)expiredAuctions.get(i)[0]));
+				System.out.println(getHighestBid((int)expiredAuctions.get(i)[0]));
+			}
 		}
 		
 		System.out.println("2");
@@ -67,7 +71,7 @@ public class UserHandler
 			if(auctionWinners.get(i)==null)
 			{
 				winningQuery="UPDATE "+auctionTable+" SET isActive=false "
-						+ "WHERE auctID="+expiredAuctionID.get(i);
+						+ "WHERE auctID="+expiredAuctions.get(i)[0];
 			}
 			else
 			{
@@ -81,7 +85,19 @@ public class UserHandler
 			sql.updateTable(winningQuery);
 		}
 		
-		return expiredAuctionID;
+		//ALERT
+		if(auctionWinners.size()>0)
+		{
+			for(int i=0; i<auctionWinners.size(); i++)
+			{
+				String winningUser=(String)auctionWinners.get(i)[4];
+				String message="Congratulations on winning Auction "+auctionWinners.get(i)[0];
+				
+				notifyUser(winningUser, message);
+			}
+		}
+		
+		return expiredAuctions;
 	}
 	
 	public String convertToDateTime(String date, String time)
@@ -298,11 +314,15 @@ public class UserHandler
 		return status;
 	}
 	
-	public boolean createBid(String user, int auctionID, double amount, double max)
+	/*public boolean createBid(String user, int auctionID, double amount, double max)
 	{
 		boolean status=true;
 		
 		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="select auctID, bidID, amt, maxBid, createdBy, dt, isActive"
+				+ " FROM "+bidTable+" WHERE auctID="+auctionID+" order by bid desc limit 1";
+		
 		
 		Object[] auctionInfo=getAuctionInfo(auctionID);
 		
@@ -331,6 +351,166 @@ public class UserHandler
 		else
 		{
 			status=false;
+		}
+	}*/
+	
+	public boolean createBid(String user, int auctionID, double amount, double max)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="select auctID, bidID, amt, maxBid, createdBy, dt, isActive"
+				+ " FROM "+bidTable+" WHERE auctID="+auctionID+" order by amt desc limit 1";
+		
+		int bidID=sql.getRowCount(bidTable)+1;
+		
+		System.out.println(query);
+		
+		ArrayList<Object[]> rs=sql.select(query);
+		
+		String auctionQuery="SELECT * FROM "+auctionTable+" WHERE auctID="+auctionID+";";
+		
+		ArrayList<Object[]> auction=sql.select(auctionQuery);
+		
+		BigDecimal amt=BigDecimal.valueOf(amount);
+		BigDecimal maxAmt=BigDecimal.valueOf(max);
+		
+		if(rs==null || rs.size()==0)
+		{
+			query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+					+amt.toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+		
+			sql.updateTable(query);
+			
+			//ALERT: Top Bid
+		}
+		else
+		{
+			BigDecimal INCREMENT=BigDecimal.valueOf(Double.valueOf(String.valueOf(auction.get(0)[0])));
+			
+			String old_user=(String)rs.get(0)[4];
+		    BigDecimal old_bid=(BigDecimal)rs.get(0)[2];
+		    BigDecimal old_max_bid=(BigDecimal)rs.get(0)[3];
+		    
+		    if(amt.floatValue()<old_bid.add(INCREMENT).floatValue())
+		    {
+		    	if(maxAmt==null || maxAmt.compareTo(old_bid.add(INCREMENT))<=0)
+		    	{
+//		            ALERT new_user_id: Bid is too low because it is smaller than the Last Bid
+		    	}
+		    	else if(old_max_bid!=null && maxAmt.compareTo(old_max_bid.add(INCREMENT))<=0)
+			    {
+		    		//ALERT new_user: New Max Bid is too low
+//		            // Register Loosing Bid from new user
+					query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+maxAmt.toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		            //query="INSERT into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+new_max_bid.toString()+", "+new_max_bid.toString())+")";
+//		            //ALERT old_user: New Bid increased Bid Price
+//		            // Register new bid price for old user that is greater than max bid by new user
+		           // query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+old_user_id+"', now(), "+new_max_bid.add(INCREMENT).toString()+", "+old_max_bid.toString())+")";
+					query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+maxAmt.add(INCREMENT).toString()+", "+old_max_bid.toString()+", \'"+old_user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+			    }
+		    	else if(old_max_bid==null)
+		    	{
+		    		//New Bid is Winning
+		            //ALERT old_user: Old Bid is Loosing
+		            //ALERT new_user: New Bid is Winning
+		    		//query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+old_bid.add(INCREMENT).toString()+", "+new_max_bid.toString())+")";
+		    		query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+old_bid.add(INCREMENT).toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		    	}
+		    	else
+		    	{
+		    		// New Bid is Winning against Old Max Bid
+		            //ALERT old_user: Old Bid is Loosing
+		            //ALERT new_user: New Bid is Winning
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+old_max_bid.add(INCREMENT).toString()+", "+new_max_bid.toString())+")";
+		    		query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+old_max_bid.add(INCREMENT).toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		    	}
+		    }
+		    else
+		    {
+		    	 // New Bid is greater then Old Bid
+		        if(old_max_bid==null || old_max_bid.add(INCREMENT).compareTo(amt)<=0)
+		        {
+		            // New Bid is Winning
+		        	//ALERT old_user: Old Bid is Loosing
+		            //ALERT new_user: New Bid is Winning
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+new_bid.toString()+", "+(new_max_bid==null ? "null" : new_max_bid.toString()))+")";
+		        	query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+amt.add(INCREMENT).toString()+", "+(maxAmt==null ? "null" : maxAmt.toString())+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        }
+		        else if(maxAmt==null)
+		        {
+		            // Old Bid is still Winning
+		            //ALERT new_user: New Bid is Loosing
+		            // Register New Bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+new_bid.toString()+", null)";
+		        	query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+amt.toString()+", "+null+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        	
+		        	//ALERT old_user: Old Bid is increased the Bid price because of New Bid
+		            // Register Updated Old Bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+old_user_id+"', now(), "+new_bid.add(INCREMENT).toString()+", "+old_max_bid+")";
+					query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+amt.add(INCREMENT).toString()+", "+old_max_bid+", \'"+old_user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        }
+		        else if(maxAmt.add(INCREMENT).compareTo(old_max_bid)<=0)
+		        {
+		        	// Old Bid is still Winning
+		            //ALERT new_user: New Bid is Loosing
+		            // Register New Bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+new_bid.toString()+", "+new_max_bid.toString()+")";
+		        	query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+amt.toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        	
+		        	//ALERT old_user: Old Bid is increased the Bid price because of New Bid
+		            // Register Updated Old Bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+old_user_id+"', now(), "+new_max_bid.add(INCREMENT).toString()+", "+old_max_bid+")";
+					query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+maxAmt.add(INCREMENT).toString()+", "+old_max_bid+", \'"+old_user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        }
+		        else
+		      	{
+		        	// New Bid is Winning
+		            //ALERT old_user: Old Bid is Loosing
+		            //ALERT new_user: New Bid is Winning
+		            // Original new bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+new_bid.toString()+", "+new_max_bid.toString())+")";
+		        	query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+amt.toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		        	
+		        	// Update new bid
+		            //query="insert into bid (item_id, user_id, timestamp, bid, max_bid) values ("+item_id+", '"+new_user_id+"', now(), "+old_max_bid.add(INCREMENT).toString()+", "+new_max_bid.toString()+")";
+					query="INSERT INTO "+bidTable+" VALUES("+auctionID+", "+bidID+", "
+							+old_max_bid.add(INCREMENT).toString()+", "+maxAmt.toString()+", \'"+user+"\', \'"+getTime()+"\', true);";
+					
+					sql.updateTable(query);
+		      	}
+			}
 		}
 		
 		return status;
@@ -1081,6 +1261,11 @@ public class UserHandler
 		}
 		
 		return valid;
+	}
+	
+	public void notifyUser()
+	{
+		
 	}
 	
 	public int resetPassword(String currentUser, String uname, String pword, String cpword)

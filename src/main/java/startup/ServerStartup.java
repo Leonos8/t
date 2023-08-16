@@ -16,19 +16,8 @@ public class ServerStartup extends HttpServlet
 		System.out.println("----------");
 		System.out.println("---------- Server Startup ----------");
 		System.out.println("----------");
-          
-		Thread automaticBiddingThread=new Thread() //Checks for any new bids
-    	{
-        	  public void run()
-        	  {
-        		  while(true)
-        		  {
-        			  //System.out.println("HI");
-        		  }
-        	  }
-        };
         
-        Thread expiredAuctionThread=new Thread() //Checks for any expiring auctions
+        Thread auctionRuntimeThread=new Thread() //Checks for any expiring auctions
     	{
         	  public void run()
         	  {
@@ -56,7 +45,6 @@ public class ServerStartup extends HttpServlet
         	  }
         };
         
-        automaticBiddingThread.start();
-        expiredAuctionThread.start();
+        auctionRuntimeThread.start();
     }
 }
