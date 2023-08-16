@@ -3,7 +3,8 @@
     pageEncoding="ISO-8859-1"%>
 <%
 	String search=request.getParameter("search");
-		
+	String itemType=request.getParameter("itemType");
+
 	//System.out.println("Search="+search);
 			
 	String[] keywords=search.split("[ ]+");
@@ -15,9 +16,11 @@
 		userHandler.UserHandler uh=new userHandler.UserHandler();
 		
 		java.util.ArrayList<String> users=uh.searchProfile(keywords);
+				
+		java.util.ArrayList<Object[]> auctions=uh.getAuctions(itemType, keywords);
+		java.util.ArrayList<Object[]> items=uh.getItems(itemType, keywords);
 		
-		//uh.searchItems(keywords); TODO uncomment eventually
-		
+		//System.out.println(items.get(0)[0]);
 		%>
 			<html>
 				<head>
@@ -77,6 +80,30 @@
 								<a href="../auction/ProfilePage.jsp" onclick="<%session.setAttribute("PROFILE_USER", users.get(i));%>">
 							<%
 							out.println(users.get(i));
+							%>
+								</a>
+								<br>
+							<%
+						}
+					%>
+					<%
+						for(int i=0; i<auctions.size(); i++)
+						{
+							String link=String.valueOf(auctions.get(i)[0]);
+							for(int j=1; j<items.get(i).length; j++)
+							{
+								link+=" "+items.get(i)[j];
+							}
+							
+							Object[] itemInfo=uh.getItemInfo(items.get(i), (int)items.get(i)[1]);
+							for(int j=1; j<itemInfo.length; j++)
+							{
+								link+=" "+itemInfo[j];
+							}
+							%>
+								<a href="../auction/ViewAuctionPage.jsp" onclick="<%session.setAttribute("AUCTION_OPENED", auctions.get(i)[0]);%>">
+							<%
+							out.println(link);
 							%>
 								</a>
 								<br>

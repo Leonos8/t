@@ -1,21 +1,23 @@
 package userHandler;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import databaseDriver.DBSQL;
 
 public class UserHandler
 {
-	String adminTable="administrator";
+	String adminTable="Administrator";
+	String answerTable="Answers";
 	String auctionTable="Auction";
-	String bidTabl="Bid";
+	String bidTable="Bid";
 	String crTable="custRep";
 	String euTable="endUsers";
 	String itemTable="Item";
+	String qTable="Questions";
 	
 	
 	public String convertToDateTime(String date, String time)
@@ -141,6 +143,22 @@ public class UserHandler
 		return valid;
 	}
 	
+	public boolean createAnswer(String user, int qid, String answer)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("forum");
+		
+		int ansID=sql.getRowCount(answerTable)+1;
+		
+		String query="INSERT INTO "+answerTable+" VALUES("+ansID+", "+qid
+				+", \'"+answer+"\', \'"+user+"\', \'"+getTime()+"\');";
+		
+		sql.updateTable(query);
+		
+		return status;
+	}
+	
 	public int createAuction(String seller, String category, String subcategory, 
 			String[] itemInfo, String closingDT, String reserveAmount, 
 			String initialAmount, String minIncrement)
@@ -212,6 +230,53 @@ public class UserHandler
 		sql.updateTable(createSubQuery);
 		
 		status=1;
+		
+		return status;
+	}
+	
+	public Object[] getAuctionInfo(int auctionID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String auctionQuery="SELECT * FROM "+auctionTable+" WHERE auctID="+auctionID+";";
+		
+		Object[] auctionInfo=sql.select(auctionQuery).get(0);
+		
+		return auctionInfo;
+	}
+	
+	public boolean createBid(String user, int auctionID, double amount, double max)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("Auctions");
+		
+		Object[] auctionInfo=getAuctionInfo(auctionID);
+		
+		int bidID=sql.getRowCount(bidTable)+1;
+		
+		Object[] highestBid=getHighestBid(auctionID);
+		
+		if(highestBid==null)
+		{
+			String bidQuery="INSERT INTO "+bidTable+" VALUES("
+					+auctionID+", "+bidID+", "+amount+", "+max+", "
+					+"\'"+user+"\', \'"+getTime()+"\');";
+			
+			sql.updateTable(bidQuery);
+		}
+		else if(amount>Double.parseDouble(String.valueOf(highestBid[2])))
+		{
+			String bidQuery="INSERT INTO "+bidTable+" VALUES("
+					+auctionID+", "+bidID+", "+amount+", "+max+", "
+					+"\'"+getTime()+"\');";
+			
+			sql.updateTable(bidQuery);
+		}
+		else
+		{
+			status=false;
+		}
 		
 		return status;
 	}
@@ -326,6 +391,209 @@ public class UserHandler
 		}
 		
 		return valid;
+	}
+	
+	public boolean createQuestion(String user, String title, String question)
+	{
+		boolean status=true;
+		
+		DBSQL sql=new DBSQL("Forum");
+		
+		int questionID=sql.getRowCount(qTable)+1;
+		
+		String query="INSERT INTO "+qTable+" VALUES ("
+				+questionID+", \'"+title+"\', \'"+question+"\', \'"
+				+user+"\', \'"+getTime()+"\');";
+		
+		sql.updateTable(query);
+		
+		return status;
+	}
+	
+	public ArrayList<Object[]> getAnswers(int qid)
+	{
+		DBSQL sql=new DBSQL("Forum");
+		
+		String query="SELECT * FROM "+answerTable+" WHERE questionID="+qid+";";
+		
+		ArrayList<Object[]> answers=sql.select(query);
+		
+		return answers;
+	}
+	
+	public ArrayList<Object[]> getBids(int auctionID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="SELECT * FROM "+bidTable+" WHERE auctID="+auctionID+";";
+	
+		ArrayList<Object[]> bids=sql.select(query);
+		
+		return bids;
+	}
+	
+	public Object[] getHighestBid(int auctionID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="SELECT * FROM "+bidTable+" WHERE auctID="+auctionID
+				+" HAVING bidID=(SELECT MAX(bidID) FROM "+bidTable
+				+" WHERE auctID="+auctionID+");";
+		
+		ArrayList<Object[]> bids=sql.select(query);
+		
+		if(bids.size()>0)
+		{
+			return bids.get(0);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public Object[] getItem(int auctionID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String auctionQuery="SELECT * FROM "+itemTable+" WHERE auctID="+auctionID+";";
+	
+		ArrayList<Object[]> tmp=sql.select(auctionQuery);
+		
+		String itemQuery="SELECT * FROM "+tmp.get(0)[3]+" WHERE itemID="+tmp.get(0)[1]+";";
+	
+		ArrayList<Object[]> item=sql.select(itemQuery);
+		
+		return item.get(0);
+	}
+	
+	public ArrayList<Object[]> getAuctions(String itemType, String[] keywords)
+	{		
+		ArrayList<Object[]> searchItems=searchItems(itemType, keywords);
+		
+		System.out.println(searchItems.size());
+		
+		DBSQL sql=new DBSQL("Auctions");
+		
+		ArrayList<ArrayList<Object[]>> itemTmp=new ArrayList<ArrayList<Object[]>>();
+ 		
+		for(int i=0; i<searchItems.size(); i++)
+		{
+			String query="SELECT * FROM "+itemTable+" WHERE itemID="
+					+searchItems.get(i)[0];
+			
+			System.out.println(query);
+			
+			itemTmp.add(sql.select(query));
+		}
+		
+		ArrayList<ArrayList<Object[]>> auctionTmp=new ArrayList<ArrayList<Object[]>>();
+		
+		for(int i=0; i<itemTmp.size(); i++)
+		{
+			String query="SELECT * FROM "+auctionTable+" WHERE auctID="
+					+itemTmp.get(i).get(0)[0];
+			
+			System.out.println(query);
+			
+			auctionTmp.add(sql.select(query));
+		}
+		
+		ArrayList<Object[]> auctions=new ArrayList<Object[]>();
+		
+		for(int i=0; i<auctionTmp.size(); i++)
+		{
+			if((boolean)auctionTmp.get(i).get(0)[4])
+			{
+				auctions.add(auctionTmp.get(i).get(0));
+			}
+		}
+		
+		return auctions;
+	}
+	
+	public Object[] getItemInfo(Object[] item, int itemID)
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="SELECT * FROM "+item[3]+" WHERE itemID="+itemID+";";
+		
+		ArrayList<Object[]> data=sql.select(query);
+		
+		System.out.println(data.size());
+		return data.get(0);
+	}
+	
+	public ArrayList<Object[]> getItems(String itemType, String[] keywords)
+	{
+		ArrayList<Object[]> searchItems=searchItems(itemType, keywords);
+
+		DBSQL sql=new DBSQL("Auctions");
+		
+		ArrayList<ArrayList<Object[]>> itemTmp=new ArrayList<ArrayList<Object[]>>();
+ 		
+		for(int i=0; i<searchItems.size(); i++)
+		{
+			String query="SELECT * FROM "+itemTable+" WHERE itemID="
+					+searchItems.get(i)[0];
+			
+			System.out.println(query);
+			
+			itemTmp.add(sql.select(query));
+		}
+		
+		ArrayList<Object[]> items=new ArrayList<Object[]>();
+		
+		for(int i=0; i<itemTmp.size(); i++)
+		{
+			items.add(itemTmp.get(i).get(0));
+		}
+		
+		String query="SELECT * FROM Item WHERE auctID=(SELECT auctID FROM Auction WHERE isActive=true);";
+		
+		ArrayList<Object[]> active=sql.select(query);
+		
+		boolean isActive=false;
+		
+		for(int i=0; i<items.size(); i++)
+		{
+			for(int j=0; j<active.size(); j++)
+			{
+				if(items.get(i)[0]==active.get(j)[1])
+				{
+					isActive=true;
+				}
+				
+				if(!isActive)
+				{
+					items.remove(i);
+				}
+			}
+		}
+		
+		return items;
+	}
+	
+	public Object[] getQuestion(int qid)
+	{
+		DBSQL sql=new DBSQL("forum");
+		
+		String query="SELECT * FROM "+qTable+" WHERE qid="+qid+";";
+		
+		ArrayList<Object[]> question=sql.select(query);
+		
+		return question.get(0);
+	}
+	
+	public ArrayList<Object[]> getQuestions()
+	{
+		DBSQL sql=new DBSQL("Forum");
+		
+		String query="SELECT * FROM Questions";
+		
+		ArrayList<Object[]> questions=sql.select(query);
+		
+		return questions;
 	}
 	
 	public boolean hasDatePassed(String date, String time)
@@ -727,62 +995,241 @@ public class UserHandler
 		return status;
 	}
 	
-	public static void main(String[] args)
-	{
-		UserHandler uh=new UserHandler();
-		
-		String createSubQuery="INSERT INTO "+"car"+" VALUES("
-				+1+", ";
-		
-		String[] itemInfo=new String[] {"convertible","2011", "Mazda", "Miata",
-				"Red", "Used", "100000", "Gas", "Manual"};
-		
-		
-		for(int i=0; i<itemInfo.length-1; i++)
-		{
-			createSubQuery+="\'"+itemInfo[i]+"\', ";
-		}
-		createSubQuery+="\'"+itemInfo[itemInfo.length-1]+"\');";
-		
-		System.out.println(createSubQuery);
-		
-		//uh.searchItems(new String[] {"red", "car"});
-	}
-	
-	public void searchItems(String[] keywords)
+	public ArrayList<ArrayList<Object[]>> searchItems(String[] keywords)
 	{
 		DBSQL sql=new DBSQL("Auctions");
 		
 		//String query="SELECT * FROM Item "
 				//+"WHERE ";
 		
-		String query="SELECT * FROM Item;";
+		String searchQuery = "";
 		
-		//query+="xyz like \"%"+keywords[i]+"%\" ";
-		/*boolean isFirst=true;
-		for(int i=0; i<keywords.length; i++)
+		String[] tables=new String[] {"Item", "Clothing", "Bracelet", 
+				"Earrings", "Hats", "Necklace", "Pants", "Shirts", "Shoes", 
+				"Socks", "Undergarments", "Watch", "Computers", "AIO", 
+				"Desktop", "Laptop", "Vehicles", "Airplane", "Boat", "Bus", 
+				"Car", "Motorcycle", "Offroad", "Truck", "Other"};
+		
+		String[][] columns=new String[][] 
+				{{"Category", "Subcategory"}, {"Subcategory"}, 
+				 {"Company", "Size", "Material"}, {"Company", "Material"}, 
+				 {"Style", "Size", "Color"}, {"Company", "Size", "Material"}, 
+				 {"Company", "Mf", "Size", "Material", "Color"}, 
+				 {"Company", "Mf", "Size", "Material", "Color"}, 
+				 {"Company", "Model", "Mf", "Size", "Color"}, 
+				 {"Company", "Size", "Color"}, {"Company", "Size", "Color"}, 
+				 {"Company", "Model", "Color", "Material"}, {"Subcategory"}, 
+				 {"YearMade", "Company", "Model", "Screensize", "Color", "Processor", "Gpu"}, 
+				 {"YearMade", "Company", "Model", "Color", "Processor", "Gpu"}, 
+				 {"YearMade", "Company", "Model", "Screensize", "Color", "Processor", "Gpu"}, 
+				 {"Subcategory"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "ItemCondition", "Mileage"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "Color", "ItemCondition", "Mileage", "FuelType", "Transmission"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "Color", "ItemCondition", "Mileage"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+				 {"BodyType", "YearMade", "Make", "Model", "ItemCondition", "Mileage"}, 
+				 {"ItemName", "ItemDescription"}};
+				 
+		ArrayList<ArrayList<Object[]>> results=new ArrayList<ArrayList<Object[]>>();
+				 
+		for(int k=0; k<keywords.length; k++)
 		{
-			if(keywords[i].length()>0)
+			for(int i=0; i<tables.length; i++)
 			{
-				if(isFirst)
+				searchQuery+="SELECT * FROM "+tables[i]+" WHERE ";
+						 
+				for(int j=0; j<columns[i].length; j++)
 				{
-					isFirst=false;
+					searchQuery+=columns[i][j]+" LIKE ";	 
+							 
+					searchQuery+="\'%"+keywords[k]+"%\'";
+							 
+					if(j<columns[i].length-1)
+					{
+						searchQuery+=" OR ";
+					}
 				}
-				else
-				{
-					query+="OR "; //Can later check for quotes to use AND
-				}
-				
-				query+="UPPER(name) LIKE \"%"+keywords[i].toUpperCase()
-						+"%\" ";
+						
+				System.out.println(searchQuery);
+				results.add(sql.select(searchQuery));
+				searchQuery="";
 			}
-		}*/
+		}
 		
-		System.out.println(query);
+		return results;
+	}
+	
+	public ArrayList<Object[]> searchItems(String itemType, String[] keywords)
+	{
+		DBSQL sql=new DBSQL("Auctions");
 		
-		ArrayList<Object[]> data=sql.select(query);
+		String[] clothingTables=new String[] {"Bracelet", 
+				"Earrings", "Hats", "Necklace", "Pants", "Shirts", "Shoes", 
+				"Socks", "Undergarments", "Watch"};
 		
-		//return data;
+		String[] computersTables=new String[] {"AIO", 
+				"Desktop", "Laptop"};
+		
+		String[] vehiclesTables=new String[] {"Airplane", "Boat", "Bus", 
+				"Car", "Motorcycle", "Offroad", "Truck"};
+		
+		/////////////////////////////////////////////////////////
+		String[][] clothingColumns=new String[][] { 
+			 {"Company", "Size", "Material"}, {"Company", "Material"}, 
+			 {"Style", "Size", "Color"}, {"Company", "Size", "Material"}, 
+			 {"Company", "Mf", "Size", "Material", "Color"}, 
+			 {"Company", "Mf", "Size", "Material", "Color"}, 
+			 {"Company", "Model", "Mf", "Size", "Color"}, 
+			 {"Company", "Size", "Color"}, {"Company", "Size", "Color"}, 
+			 {"Company", "Model", "Color", "Material"}, {"Subcategory"}};
+		
+		String[][] computersColumns=new String[][] {
+				 {"YearMade", "Company", "Model", "Screensize", "Color", "Processor", "Gpu"}, 
+				 {"YearMade", "Company", "Model", "Color", "Processor", "Gpu"}, 
+				 {"YearMade", "Company", "Model", "Screensize", "Color", "Processor", "Gpu"}};
+		
+		String[][] vehiclesColumns=new String[][] {
+			 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "ItemCondition", "Mileage"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "Color", "ItemCondition", "Mileage", "FuelType", "Transmission"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "Color", "ItemCondition", "Mileage"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "ItemCondition"}, 
+			 {"BodyType", "YearMade", "Make", "Model", "ItemCondition", "Mileage"}};
+		
+		String[][] otherColumns=new String[][] {{"ItemName", "ItemDescription"}};
+		
+		////////////////////////////////////////////////////////////////
+		
+		String query="";
+		ArrayList<ArrayList<Object[]>> tmp=new ArrayList<ArrayList<Object[]>>();
+		
+		if(itemType.equals("clothing"))
+		{
+			for(int k=0; k<keywords.length; k++)
+			{
+				for(int i=0; i<clothingTables.length; i++)
+				{
+					query+="SELECT * FROM "+clothingTables[i];
+				
+					for(int j=0; j<clothingColumns[i].length; j++)
+					{
+						if(j==0)
+						{
+							query+=" WHERE "+clothingColumns[i][j];
+						}
+						else
+						{
+							query+=" OR "+clothingColumns[i][j];
+						}
+					
+						query+=" LIKE \'%"+keywords[k]+"%\'";
+					}
+					query+=";";
+					System.out.println(query);
+					tmp.add(sql.select(query));
+					query="";
+				}
+			}
+		}
+		else if(itemType.equals("computers"))
+		{
+			for(int k=0; k<keywords.length; k++)
+			{
+				for(int i=0; i<computersTables.length; i++)
+				{
+					query+="SELECT * FROM "+computersTables[i];
+				
+					for(int j=0; j<computersColumns[i].length; j++)
+					{
+						if(j==0)
+						{
+							query+=" WHERE "+computersColumns[i][j];
+						}
+						else
+						{
+							query+=" OR "+computersColumns[i][j];
+						}
+					
+						query+=" LIKE \'%"+keywords[k]+"%\'";
+					}
+					query+=";";
+					System.out.println(query);
+					tmp.add(sql.select(query));
+					query="";
+				}
+			}
+		}
+		else if(itemType.equals("vehicles"))
+		{
+			for(int k=0; k<keywords.length; k++)
+			{
+				for(int i=0; i<vehiclesTables.length; i++)
+				{
+					query+="SELECT * FROM "+vehiclesTables[i];
+				
+					for(int j=0; j<vehiclesColumns[i].length; j++)
+					{
+						if(j==0)
+						{
+							query+=" WHERE "+vehiclesColumns[i][j];
+						}
+						else
+						{
+							query+=" OR "+vehiclesColumns[i][j];
+						}
+					
+						query+=" LIKE \'%"+keywords[k]+"%\'";
+					}
+					query+=";";
+					System.out.println(query);
+					tmp.add(sql.select(query));
+					query="";
+				}
+			}
+		}
+		else if(itemType.equals("other"))
+		{
+			for(int k=0; k<keywords.length; k++)
+			{
+				for(int i=0; i<1; i++)
+				{
+					query+="SELECT * FROM other";
+				
+					for(int j=0; j<otherColumns[i].length; j++)
+					{
+						if(j==0)
+						{
+							query+=" WHERE "+otherColumns[i][j];
+						}
+						else
+						{
+							query+=" OR "+otherColumns[i][j];
+						}
+					
+						query+=" LIKE \'%"+keywords[k]+"%\'";
+					}
+					query+=";";
+					System.out.println(query);
+					tmp.add(sql.select(query));
+					query="";
+				}
+			}
+		}
+		
+		ArrayList<Object[]> results=new ArrayList<Object[]>();
+		
+		for(int i=0; i<tmp.size(); i++)
+		{
+			for(int j=0; j<tmp.get(i).size(); j++)
+			{
+				results.add(tmp.get(i).get(j));
+			}
+		}
+		
+		return results;
 	}
 	
 	public ArrayList<String> searchProfile(String[] keywords)
@@ -812,5 +1259,58 @@ public class UserHandler
 		}
 		
 		return users;
+	}
+	
+	public ArrayList<Object[]> searchQuestions(String[] keywords)
+	{
+		DBSQL sql=new DBSQL("forum");
+		
+		ArrayList<Object[]> searchList=new ArrayList<Object[]>();
+		
+		String questionsQuery="SELECT * FROM "+qTable+";";
+		
+		ArrayList<Object[]> questions=sql.select(questionsQuery);
+		HashSet<Integer> duplicate=new HashSet<>();
+		
+		for(int i=0; i<questions.size(); i++)
+		{
+			for(int j=0; j<keywords.length; j++)
+			{
+				if(String.valueOf(questions.get(i)[1]).contains(keywords[j])
+						|| String.valueOf(questions.get(i)[2]).contains(keywords[j])
+						|| String.valueOf(questions.get(i)[3]).contains(keywords[j]))
+				{
+					duplicate.add((int)questions.get(i)[0]);
+					searchList.add(questions.get(i));
+				}
+			}
+		}
+		
+		String answersQuery="SELECT * FROM "+answerTable+";";
+		
+		ArrayList<Object[]> answers=sql.select(answersQuery);
+		
+		for(int i=0; i<answers.size(); i++)
+		{
+			for(int j=0; j<keywords.length; j++)
+			{
+				if(String.valueOf(answers.get(i)[2]).contains(keywords[j])
+						|| String.valueOf(answers.get(i)[3]).contains(keywords[j]))
+				{
+					if(!duplicate.contains(answers.get(i)[1]))
+					{
+						Object[] ansQuestion=getQuestion((int)answers.get(i)[1]);
+						searchList.add(ansQuestion);
+					}
+				}
+			}
+		}
+		
+		for(int i=0; i<searchList.size(); i++)
+		{
+			System.out.println(searchList.get(i)[1]);
+		}
+		
+		return searchList;
 	}
 }

@@ -9,4 +9,18 @@
     	<welcome-file>default.htm</welcome-file>
     	<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<servlet>
+    	<servlet-name>LoadConfigurations</servlet-name>
+    	<servlet-class>Listener.ContextListener</servlet-class>
+    	<init-param>
+      		<param-name>env</param-name>
+      		<param-value>dev</param-value>
+    	</init-param>
+    	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<listener>
+		<listener-class>Listener.ContextListener</listener-class>
+	</listener>
 </web-app>

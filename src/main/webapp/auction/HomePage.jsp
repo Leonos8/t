@@ -26,6 +26,7 @@
   				margin-top: 8px;
   				margin-right: 25%;
   				font-size: 17px;
+  				display-inline: block;
 			}
 			
 			.searchButton 
@@ -37,6 +38,7 @@
     			margin-right: 0;
     			margin-top: 8px;
     			padding: 8px;
+    			display-inline: block;
   			}
   			
   			.newAuctionButton 
@@ -48,6 +50,13 @@
     			margin-left: 0%;
     			margin-top: 8px;
     			padding: 8px;
+  			}
+  			
+  			.itemTypeSelect
+  			{
+  				vertical-align: middle;
+  				display-inline: block;
+  				margin-right: 5%;
   			}
   			
   			*
@@ -135,7 +144,7 @@
 								<%
 							}
 						%>
-						<li><a href="../login/ForumPage.jsp">Forum</a></li>
+						<li><a href="../forum/ForumPage.jsp">Forum</a></li>
 						<li><a href="../login/LoginPage.jsp">Log Out</a></li>
 					</ul>
 				</li>
@@ -146,6 +155,15 @@
 			<form action="../Processing/SearchProcessing.jsp">
       			<input type="text" placeholder="Search..." name="search">
       			<button type="submit" class=searchButton><i class="fa fa-search"></i></button>
+    		
+    			<div class="itemTypeSelect">
+    				<select name="itemType" id="itemType">
+						<option value="clothing">Clothing</option>
+   	 					<option value="computers">Computers</option>
+   	 					<option value="vehicles">Vehicles</option>
+    					<option value="other">Other</option>
+  					</select>
+    			</div>
     		</form>
 		</div>
 		
