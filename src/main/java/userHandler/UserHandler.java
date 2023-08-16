@@ -22,6 +22,10 @@ public class UserHandler
 	{
 		String datetime=date+" "+time;
 		
+		if(!time.contains(":"))
+		{
+			datetime+=":00:00";
+		}
 		if(time.split(":").length==2)
 		{
 			datetime+=":00";
@@ -137,7 +141,7 @@ public class UserHandler
 		return valid;
 	}
 	
-	public int createAuction(String category, String subcategory, 
+	public int createAuction(String seller, String category, String subcategory, 
 			String[] itemInfo, String closingDT, String reserveAmount, 
 			String initialAmount, String minIncrement)
 	{
@@ -168,7 +172,7 @@ public class UserHandler
 				//+"WHERE username='"+uname+"';";
 		
 		String createAuctionQuery="INSERT INTO "+auctionTable+" VALUES ("
-				+aid+", \'"+createdDate+"\', \'"+endDate+"\', "+
+				+aid+", \'"+seller+"\', \'"+createdDate+"\', \'"+endDate+"\', "+
 				true+", "+initial+", "+increment+", "+reserve+", "
 				+null+", "+null+", "+null+");";
 		
@@ -197,11 +201,11 @@ public class UserHandler
 		String createSubQuery="INSERT INTO "+subcategory+" VALUES("
 				+itemID+", ";
 		
-		for(int i=0; i<itemInfo.length; i++)
+		for(int i=0; i<itemInfo.length-1; i++)
 		{
 			createSubQuery+="\'"+itemInfo[i]+"\', ";
 		}
-		createSubQuery+=");";
+		createSubQuery+="\'"+itemInfo[itemInfo.length-1]+"\');";
 		
 		System.out.println("CSQ"+createSubQuery);
 		
@@ -723,16 +727,39 @@ public class UserHandler
 		return status;
 	}
 	
+	public static void main(String[] args)
+	{
+		UserHandler uh=new UserHandler();
+		
+		String createSubQuery="INSERT INTO "+"car"+" VALUES("
+				+1+", ";
+		
+		String[] itemInfo=new String[] {"convertible","2011", "Mazda", "Miata",
+				"Red", "Used", "100000", "Gas", "Manual"};
+		
+		
+		for(int i=0; i<itemInfo.length-1; i++)
+		{
+			createSubQuery+="\'"+itemInfo[i]+"\', ";
+		}
+		createSubQuery+="\'"+itemInfo[itemInfo.length-1]+"\');";
+		
+		System.out.println(createSubQuery);
+		
+		//uh.searchItems(new String[] {"red", "car"});
+	}
+	
 	public void searchItems(String[] keywords)
 	{
-		DBSQL sql=new DBSQL("Items");
+		DBSQL sql=new DBSQL("Auctions");
 		
-		String query="SELECT * FROM Items "
-				+"WHERE ";
+		//String query="SELECT * FROM Item "
+				//+"WHERE ";
 		
+		String query="SELECT * FROM Item;";
 		
 		//query+="xyz like \"%"+keywords[i]+"%\" ";
-		boolean isFirst=true;
+		/*boolean isFirst=true;
 		for(int i=0; i<keywords.length; i++)
 		{
 			if(keywords[i].length()>0)
@@ -749,7 +776,7 @@ public class UserHandler
 				query+="UPPER(name) LIKE \"%"+keywords[i].toUpperCase()
 						+"%\" ";
 			}
-		}
+		}*/
 		
 		System.out.println(query);
 		

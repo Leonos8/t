@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
+
+<%
+	String userid=(String)session.getAttribute("LOGIN_USER");
+	if(userid==null)
+	{
+    	response.sendRedirect("../login/LoginPage.jsp");
+    	return; //the return is important; forces redirect to go now
+	}
+%>
+
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
@@ -269,280 +279,280 @@
 				
 				<div id="bracelet_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="braceletCompany">
     				
     				<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter Size" name="size">
+    				<input type="text" placeholder="Enter Size" name="braceletSize">
     				
     				<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter material" name="material">
+    				<input type="text" placeholder="Enter material" name="braceletMaterial">
 				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="braceletCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="braceletCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="braceletReserve">
     				
     				<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="braceletInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="braceletMinInc">
 				</div>
 				
 				<div id="earrings_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="earringsCompany">
     				
     				<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter material" name="material">
+    				<input type="text" placeholder="Enter material" name="earringsMaterial">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="earringsCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="earringsCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="earringsReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="earringsInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="earringsMinInc">
 				</div>
 				
 				<div id="hats_div">
 					<label for="style"><br><b>Style:</b></label>
-    				<input type="text" placeholder="Enter style" name="style">
+    				<input type="text" placeholder="Enter style" name="hatsStyle">
     				
     				<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="hatsSize">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="hatsColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="hatsCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="hatsCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="hatsReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="hatsInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="hatsMinInc">
 				</div>
 				
 				<div id="necklace_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="necklaceCompany">
     				
     				<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="necklaceSize">
     				
     				<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter material" name="material">
+    				<input type="text" placeholder="Enter material" name="necklaceMaterial">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="necklaceCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="necklaceCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="necklaceReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="necklaceInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="necklaceMinInc">
 				</div>
 				
 				<div id="pants_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="pantsCompany">
 				
 					<label for="mf"><br><b>M/F:</b></label>
-    				<input type="text" placeholder="M/F" name="mf">
+    				<input type="text" placeholder="M/F" name="pantsMf">
 				
 					<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="pantsSize">
 				
 					<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter Material" name="material">
+    				<input type="text" placeholder="Enter Material" name="pantsMaterial">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter Color" name="color">
+    				<input type="text" placeholder="Enter Color" name="pantsColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="pantsCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="pantsCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="pantsReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="pantsInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="pantsMinInc">
 				</div>
 				
 				<div id="shirts_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="shirtsCompany">
 				
 					<label for="mf"><br><b>M/F:</b></label>
-    				<input type="text" placeholder="M/F" name="mf">
+    				<input type="text" placeholder="M/F" name="shirtsMf">
 				
 					<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="shirtsSize">
 				
 					<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter Material" name="material">
+    				<input type="text" placeholder="Enter Material" name="shirtsMaterial">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter Color" name="color">
+    				<input type="text" placeholder="Enter Color" name="shirtsColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="shirtsCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="shirtsCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="shirtsReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="shirtsInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="shirtsMinInc">
 				</div>
 				
 				<div id="shoes_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="shoesCompany">
 				
 					<label for="model"><br><b>Model:</b></label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="shoesModel">
 				
 					<label for="mf"><br><b>M/F:</b></label>
-    				<input type="text" placeholder="M/F" name="mf">
+    				<input type="text" placeholder="M/F" name="shoesMf">
 				
 					<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="shoesSize">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter Color" name="color">
+    				<input type="text" placeholder="Enter Color" name="shoesColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="shoesCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="shoesCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="shoesReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="shoesInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="shoesMinInc">
 				</div>
 				
 				<div id="socks_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="socksCompany">
     				
     				<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="socksSize">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="socksColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="socksCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name=time>
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name=socksCt>
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="socksReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="socksInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="socksMinInc">
 				</div>
 				
 				<div id="undergarments_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="ugCompany">
     				
 					<label for="size"><br><b>Size:</b></label>
-    				<input type="text" placeholder="Enter size" name="size">
+    				<input type="text" placeholder="Enter size" name="ugSize">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="ugColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="ugCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="ugCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="ugReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="ugInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="ugMinInc">
 				</div>
 				
 				<div id="watch_div">
 					<label for="company"><br><b>Company:</b></label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="watchCompany">
     				
 					<label for="model"><br><b>Model:</b></label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="watchModel">
     				
     				<label for="material"><br><b>Material:</b></label>
-    				<input type="text" placeholder="Enter material" name="material">
+    				<input type="text" placeholder="Enter material" name="watchMaterial">
     				
     				<label for="color"><br><b>Color:</b></label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="watchColor">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="watchCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="watchCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="watchReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="watchInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="watchMinInc">
 				</div>
 				
 				<!-- Computers -->
@@ -559,113 +569,113 @@
 				
 				<div id="aio_div">
 					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter year" name="year">
+    				<input type="text" placeholder="Enter year" name="aioYear">
 				
 					<label for="company"><br>Company:</label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="aioCompany">
     				
 					<label for="model"><br>Model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="aioModel">
     				
     				<label for="screensize"><br>Screensize(in):</label>
-    				<input type="text" placeholder="Enter screensize" name="screensize">
+    				<input type="text" placeholder="Enter screensize" name="aioScreensize">
     				
     				<label for="color"><br>Color:</label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="aioColor">
     				
     				<label for="cpu"><br>CPU:</label>
-    				<input type="text" placeholder="Enter CPU" name="cpu">
+    				<input type="text" placeholder="Enter CPU" name="aioCpu">
     				
     				<label for="gpu"><br>GPU:</label>
-    				<input type="text" placeholder="Enter GPU" name="gpu">
+    				<input type="text" placeholder="Enter GPU" name="aioGpu">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="aioCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="aioCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="aioReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="aioInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="aioMinInc">
 				</div>
 				
 				<div id="desktop_div">
 					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter year" name="year">
+    				<input type="text" placeholder="Enter year" name="desktopYear">
 				
 					<label for="company"><br>Company:</label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="desktopCompany">
     				
 					<label for="model"><br>Model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="desktopModel">
     				
     				<label for="color"><br>Color:</label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="desktopColor">
     				
     				<label for="cpu"><br>CPU:</label>
-    				<input type="text" placeholder="Enter CPU" name="cpu">
+    				<input type="text" placeholder="Enter CPU" name="desktopCpu">
     				
     				<label for="gpu"><br>GPU:</label>
-    				<input type="text" placeholder="Enter GPU" name="gpu">
+    				<input type="text" placeholder="Enter GPU" name="desktopGpu">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="desktopCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="desktopCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="desktopReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="desktopInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="desktopMinInc">
 				</div>
 				
 				<div id="laptop_div">
 					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter year" name="year">
+    				<input type="text" placeholder="Enter year" name="laptopYear">
 				
 					<label for="company"><br>Company:</label>
-    				<input type="text" placeholder="Enter company" name="company">
+    				<input type="text" placeholder="Enter company" name="laptopCompany">
     				
 					<label for="model"><br>Model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="laptopModel">
     				
     				<label for="screensize"><br>Screensize(in):</label>
-    				<input type="text" placeholder="Enter screensize" name="screensize">
+    				<input type="text" placeholder="Enter screensize" name="laptopScreensize">
     				
     				<label for="color"><br>Color:</label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="laptopColor">
     				
     				<label for="cpu"><br>CPU:</label>
-    				<input type="text" placeholder="Enter CPU" name="cpu">
+    				<input type="text" placeholder="Enter CPU" name="laptopCpu">
     				
     				<label for="gpu"><br>GPU:</label>
-    				<input type="text" placeholder="Enter GPU" name="gpu">
+    				<input type="text" placeholder="Enter GPU" name="laptopGpu">
     				
 					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="laptopCd">
     			
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="laptopCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="laptopReserve">
 				
 					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="laptopInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="laptopMinInc">
 				</div>
 				
   				<!-- Vehicles -->
@@ -700,31 +710,31 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="apYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="apMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="apModel">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="apCondition">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="apCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="apCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="apReserve">
   				
   					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="apInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="apMinInc">
   				</div>
   				
   				<div id="boat_div">
@@ -739,31 +749,31 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="boatYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="boatMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="boatModel">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="boatCondition">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="boatCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name=time>
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="boatCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name=reserve>
+    				<input type="text" placeholder="Enter Minimum Price" name="boatReserve">
   				
   					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="boatInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="boatMinInc">
   				</div>
         		
         		<div id="bus_div">
@@ -777,34 +787,34 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="busYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="busMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="busModel">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="busCondition">
     				
     				<label for="mileage"><br>mileage:</label>
-    				<input type="text" placeholder="Enter mileage" name="mileage">
+    				<input type="text" placeholder="Enter mileage" name="busMileage">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="busCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name=time>
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="busCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name=reserve>
+    				<input type="text" placeholder="Enter Minimum Price" name="busReserve">
   			
   					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="busInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="busMinInc">
   				</div>
         		
         		<div id="car_div">
@@ -824,43 +834,43 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="carYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="carMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="carModel">
 					
 					<label for="color"><br>Color:</label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="carColor">
 					
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="carCondition">
     				
     				<label for="mileage"><br>Mileage:</label>
-    				<input type="text" placeholder="Enter mileage" name="mileage">
+    				<input type="text" placeholder="Enter mileage" name="carMileage">
     				
     				<label for="fueltype"><br>Gas, Electric, or Hybrid:</label>
-    				<input type="text" placeholder="Gas, Electric, or Hybrid" name="fueltype">
+    				<input type="text" placeholder="Gas, Electric, or Hybrid" name="carFueltype">
     				
     				<label for="transmission"><br>Transmission:</label>
-    				<input type="text" placeholder="Automatic or Manual" name="transmission">
+    				<input type="text" placeholder="Automatic or Manual" name="carTransmission">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="carCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name=time>
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="carCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name=reserve>
+    				<input type="text" placeholder="Enter Minimum Price" name="carReserve">
     				
     				<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="carInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="carMinInc">
   				</div>
         		
         		<div id="motorcycle_div">
@@ -876,37 +886,37 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="mcYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="mcMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="mcModel">
 				
 					<label for="color"><br>Color:</label>
-    				<input type="text" placeholder="Enter color" name="color">
+    				<input type="text" placeholder="Enter color" name="mcColor">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="mcCondition">
     				
     				<label for="mileage"><br>Mileage:</label>
-    				<input type="text" placeholder="Enter mileage" name="mileage">
+    				<input type="text" placeholder="Enter mileage" name="mcMileage">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="mcCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="mcCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="mcReserve">
   				
   					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="mcInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="mcMinInc">
   				</div>
         		
         		<div id="offroad_div">
@@ -920,31 +930,31 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="offroadYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="offroadMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="offroadModel">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="offroadCondition">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="offroadCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="offroadCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="offroadReserve">
     				
     				<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="offroadInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="offroadMinInc">
   				</div>     		
     			
     			<div id="truck_div">    			
@@ -959,34 +969,34 @@
   					</select>
   				
   					<label for="year"><br>Year:</label>
-    				<input type="text" placeholder="Enter Year" name="year">
+    				<input type="text" placeholder="Enter Year" name="truckYear">
 				
 					<label for="make"><br>Make:</label>
-    				<input type="text" placeholder="Enter Make" name="make">
+    				<input type="text" placeholder="Enter Make" name="truckMake">
     			
     				<label for="model"><br>model:</label>
-    				<input type="text" placeholder="Enter model" name="model">
+    				<input type="text" placeholder="Enter model" name="truckModel">
 				
 					<label for="condition"><br>Used or new:</label>
-    				<input type="text" placeholder="Used or new" name="condition">
+    				<input type="text" placeholder="Used or new" name="truckCondition">
     				
     				<label for="mileage"><br>Mileage:</label>
-    				<input type="text" placeholder="Enter mileage" name="mileage">
+    				<input type="text" placeholder="Enter mileage" name="truckMileage">
     				
     				<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="truckCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="time">
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="truckCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="reserve">
+    				<input type="text" placeholder="Enter Minimum Price" name="truckReserve">
   				
   					<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="truckInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="truckMinInc">
   				</div>
   				
   				<!-- Other -->
@@ -994,25 +1004,25 @@
   				<div id="other_div">
   				
   					<label for="name"><br>Name of item:</label>
-    				<input type="text" placeholder="Enter the name of the item" name="name">
+    				<input type="text" placeholder="Enter the name of the item" name="otherName">
   				
   					<label for="description"><br>Description of item(no more than 500 words) :</label>
-    				<textarea placeholder="Enter description" name="description" rows=5 cols=100></textarea>
+    				<textarea placeholder="Enter description" name="otherDescription" rows=5 cols=100></textarea>
   					
   					<label for="cd"><br><b>Closing Date(YYYY-MM-DD):</b></label>
-    				<input type="text" placeholder="Enter Closing Date" name="cd">
+    				<input type="text" placeholder="Enter Closing Date" name="otherCd">
     				
-    				<label for="ct"><br><b>Closing Date(HH:MM in 24 hour time):</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name=time>
+    				<label for="ct"><br><b>Closing Time(HH:MM in 24 hour time):</b></label>
+    				<input type="text" placeholder="Enter Closing Time" name="otherCt">
   				
   					<label for="reserve"><br><b>Hidden Minimum Price:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name=reserve>
+    				<input type="text" placeholder="Enter Minimum Price" name="otherReserve">
     				
     				<label for="initial"><br><b>Initial Amount:</b></label>
-    				<input type="text" placeholder="Enter Closing Time" name="initial">
+    				<input type="text" placeholder="Enter Initial Amount" name="otherInitial">
   				
   					<label for="minInc"><br><b>Minimum increment:</b></label>
-    				<input type="text" placeholder="Enter Minimum Price" name="minInc">
+    				<input type="text" placeholder="Enter Minimum Increment" name="otherMinInc">
   				</div>
   				
   				<p>

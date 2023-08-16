@@ -50,4 +50,8 @@ earnings per {item, item type, endUser}, best selling items,
 best buyers (Maybe keep track of amount spent by each account, and top 10 or 
 so are shown in the report
 
+
+/////////////////////////////////////////////
 25) Create url endpoints
+
+26)Make the new auction page cleaner
