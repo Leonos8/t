@@ -1,22 +1,14 @@
-TODO: Remaining: 14
+TODO: Remaining: 9
 
 1) Fix the viewQuestionPage answer boxes to align the userInfo next to answer
 2) Fix the itemType select box on homepage to be next to the search bar
 
 
 August 11:
-7) Let a customer make a bid. Allow user to select whether they want automatic
-bidding. If so, let them set a max price and bid increment. Alert buyers when
-someone bids more than their upper limit
 
 8) When bids end, check if seller set a reserve. If yes, then if the reserve 
 is higher than the highest bid, no one is the winner. If no, then whoever has
 the highest bid is the winner. Alert the winner that they won the auction
-
-9) Search list of items according to various criteria describing the item
-Make this support as complex searches as possible
-
-10) History of bids for any specific auction.
 
 11) Show a status of each bid
 
