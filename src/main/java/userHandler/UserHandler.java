@@ -1,6 +1,7 @@
 package userHandler;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -676,6 +677,36 @@ public class UserHandler
 		ArrayList<Object[]> questions=sql.select(query);
 		
 		return questions;
+	}
+	
+	public String getTotalEarnings()
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="SELECT WinningBid FROM "+auctionTable;
+		
+		ArrayList<Object[]> winningBids=sql.select(query);
+		
+		double total=0.0;
+		for(int i=0; i<winningBids.size(); i++)
+		{
+			if(winningBids.get(i)[0]!=null 
+					|| String.valueOf(winningBids.get(i)[0]).isBlank())
+			{
+				total+=Double.parseDouble(String.valueOf(winningBids.get(i)[0]));
+			}
+		}
+		
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		String totalEarnings=formatter.format(total);
+		
+		if(totalEarnings==null || totalEarnings.isBlank())
+		{
+			totalEarnings="$0.00";
+		}
+		System.out.println(totalEarnings);
+		totalEarnings=totalEarnings.substring(1);
+		return totalEarnings;
 	}
 	
 	public boolean hasDatePassed(String date, String time)

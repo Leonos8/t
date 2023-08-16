@@ -119,7 +119,7 @@
   				if(uh.isAdmin(currentUser))
 				{
 					%>
-						<form action="CreateCRPage.jsp"> <!Will change to report>
+						<form action="SummarySalesReportPage.jsp">
   							<p><button class=button>Generate Sales Summary Report</button></p>
   						</form>
 					<%

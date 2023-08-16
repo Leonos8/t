@@ -1,4 +1,4 @@
-TODO: Remaining: 9
+TODO: Remaining: 6/8
 
 1) Fix the viewQuestionPage answer boxes to align the userInfo next to answer
 2) Fix the itemType select box on homepage to be next to the search bar
@@ -19,9 +19,6 @@ participated in. Maybe search accounts or store info in the account
 14) List of similar items on auction in the preceding month (and auction
 information about them. We decide similarity measure
 
-18) Allow customer reps to modify information (including resetting 
-passwords, removing bids, and removing illegal auctions)
-
 August 13:
 19) Allow for change in items available. Maybe a class that can alter 
 Items in the database, and give access to customer reps and admin? Maybe
@@ -30,8 +27,7 @@ Also automatically update based on items that are being sold?
 24) Summary sales reports include total earnings, 
 earnings per {item, item type, endUser}, best selling items, 
 best buyers (Maybe keep track of amount spent by each account, and top 10 or 
-so are shown in the report
-
+so are shown in the reports
 
 /////////////////////////////////////////////
 25) Create url endpoints

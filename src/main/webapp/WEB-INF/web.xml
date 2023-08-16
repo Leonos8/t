@@ -12,15 +12,7 @@
 	
 	<servlet>
     	<servlet-name>LoadConfigurations</servlet-name>
-    	<servlet-class>Listener.ContextListener</servlet-class>
-    	<init-param>
-      		<param-name>env</param-name>
-      		<param-value>dev</param-value>
-    	</init-param>
+    	<servlet-class>startup.ServerStartup</servlet-class>
     	<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	<listener>
-		<listener-class>Listener.ContextListener</listener-class>
-	</listener>
 </web-app>
