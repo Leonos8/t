@@ -1,10 +1,16 @@
 package startup;
 
+import java.util.Calendar;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import userHandler.UserHandler;
+
 public class ServerStartup extends HttpServlet
 {
+	UserHandler uh=new UserHandler();
+	
 	public void init() throws ServletException
     {
 		System.out.println("----------");
@@ -17,7 +23,7 @@ public class ServerStartup extends HttpServlet
         	  {
         		  while(true)
         		  {
-        			  System.out.println("HI");
+        			  //System.out.println("HI");
         		  }
         	  }
         };
@@ -28,7 +34,24 @@ public class ServerStartup extends HttpServlet
         	  {
         		  while(true)
         		  {
-        			  System.out.println("bye");
+        			  Calendar calendar=Calendar.getInstance();
+        			  
+        			  int minute=calendar.get(Calendar.MINUTE);
+
+        			  if(calendar.get(Calendar.MINUTE)!=minute)
+        			  {
+        				  uh.closePastAuctions();
+        				  
+        				  minute=calendar.get(Calendar.MINUTE);
+        			  }
+        			  
+        			  try 
+        			  {
+        				  this.sleep(1000);
+        			  } catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
         		  }
         	  }
         };

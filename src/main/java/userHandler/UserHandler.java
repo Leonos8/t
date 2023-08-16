@@ -2,9 +2,12 @@ package userHandler;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 import databaseDriver.DBSQL;
@@ -20,6 +23,66 @@ public class UserHandler
 	String itemTable="Item";
 	String qTable="Questions";
 	
+	public static void main(String[] args)
+	{
+		UserHandler uh=new UserHandler();
+		
+		uh.closePastAuctions();
+	}
+	
+	public ArrayList<Integer> closePastAuctions()
+	{
+		DBSQL sql=new DBSQL("Auctions");
+		
+		String query="SELECT * FROM "+auctionTable+" WHERE isActive=true";
+		
+		ArrayList<Object[]> auctions=sql.select(query);
+		ArrayList<Integer> expiredAuctionID=new ArrayList<>();
+		
+		for(int i=0; i<auctions.size(); i++)
+		{
+			String date=String.valueOf(auctions.get(i)[3]).split("T")[0];
+			String time=String.valueOf(auctions.get(i)[3]).split("T")[1];
+
+			if(hasDatePassed(date, time))
+			{
+				expiredAuctionID.add((int)auctions.get(i)[0]);
+			}
+		}
+		System.out.println("1");
+		ArrayList<Object[]> auctionWinners=new ArrayList<Object[]>();
+		for(int i=0; i<expiredAuctionID.size(); i++)
+		{
+			auctionWinners.add(getHighestBid(expiredAuctionID.get(i)));
+			System.out.println(getHighestBid(expiredAuctionID.get(i)));
+
+		}
+		
+		System.out.println("2");
+
+		for(int i=0; i<auctionWinners.size(); i++)
+		{
+			String winningQuery="";
+			
+			if(auctionWinners.get(i)==null)
+			{
+				winningQuery="UPDATE "+auctionTable+" SET isActive=false "
+						+ "WHERE auctID="+expiredAuctionID.get(i);
+			}
+			else
+			{
+				winningQuery="UPDATE "+auctionTable+" SET isActive=false, winningUser='"
+						+auctionWinners.get(i)[4]+"', winningBidID="
+						+auctionWinners.get(i)[1]+", winningBid="
+						+auctionWinners.get(i)[2]+" WHERE auctID="+auctionWinners.get(i)[0];
+				System.out.println(winningQuery);
+			}
+			
+			sql.updateTable(winningQuery);
+		}
+		
+		return expiredAuctionID;
+	}
 	
 	public String convertToDateTime(String date, String time)
 	{
@@ -256,7 +319,8 @@ public class UserHandler
 			sql.updateTable(bidQuery);
 		}
 		else if(amount>Double.parseDouble(String.valueOf(highestBid[2]))
-				&& amount-Double.parseDouble(String.valueOf(highestBid[2]))>=Double.parseDouble(String.valueOf(auctionInfo[6])))
+				&& amount-Double.parseDouble(String.valueOf(highestBid[2]))>=Double.parseDouble(String.valueOf(auctionInfo[6]))
+				)
 		{
 			String bidQuery="INSERT INTO "+bidTable+" VALUES("
 					+auctionID+", "+bidID+", "+amount+", "+max+", "
@@ -518,10 +582,10 @@ public class UserHandler
 	{
 		DBSQL sql=new DBSQL("Auctions");
 		
-		String query="SELECT * FROM "+bidTable+" WHERE auctID="+auctionID
-				+" AND isActive=true, "
-				+" HAVING bidID=(SELECT MAX(bidID) FROM "+bidTable
-				+" WHERE auctID="+auctionID+");";
+		String query="select auctID, bidID, amt, maxBid, createdBy, dt, isActive FROM "+bidTable+" "
+				+ "WHERE auctID="+auctionID+" order by amt desc limit 1";
+		
+		System.out.println(query);
 		
 		ArrayList<Object[]> bids=sql.select(query);
 		
@@ -714,10 +778,18 @@ public class UserHandler
 		boolean hasPassed=false;
 		
 		String inputDate=convertToDateTime(date, time);
-		String todayDate=getTime();
 		
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		
-		//hasPassed=
+		try 
+		{
+			Date d = formatter.parse(inputDate);
+			
+			hasPassed=d.before(new Date());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return hasPassed;
 	}
