@@ -18,9 +18,9 @@ public class DBSQL
 	public String sqlUID="root";
 	public String sqlPID="root";
 	
-	/*public static void main(String[] args)
+	public static void main(String[] args)
 	{
-		DBSQL sql=new DBSQL();
+		DBSQL sql=new DBSQL("Accounts");
 		
 		String query="SELECT * FROM endUsers";
 		
@@ -33,7 +33,7 @@ public class DBSQL
 				System.out.println(data.get(i)[j]);
 			}
 		}
-	}*/
+	}
 	
 	public DBSQL(String database)
 	{	
