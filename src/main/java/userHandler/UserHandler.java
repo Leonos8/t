@@ -91,9 +91,10 @@ public class UserHandler
 			for(int i=0; i<auctionWinners.size(); i++)
 			{
 				String winningUser=(String)auctionWinners.get(i)[4];
+				String title="Congratulations";
 				String message="Congratulations on winning Auction "+auctionWinners.get(i)[0];
 				
-				notifyUser(winningUser, message);
+				notifyUser("System", winningUser, title, message);
 			}
 		}
 		
@@ -1263,9 +1264,16 @@ public class UserHandler
 		return valid;
 	}
 	
-	public void notifyUser()
+	public void notifyUser(String sender, String user, String title, String message)
 	{
+		DBSQL sql=new DBSQL("Accounts");
 		
+		int messageID=sql.getRowCount("Messages")+1;
+		
+		String query="INSERT INTO Messages VALUES("+messageID+", \'"
+				+sender+"\', \'"+user+"\', \'"+title+"\', \'"+message+"\');";
+		
+		sql.updateTable(query);
 	}
 	
 	public int resetPassword(String currentUser, String uname, String pword, String cpword)

@@ -1,4 +1,4 @@
-TODO: Remaining: 6/8
+TODO: Remaining: 4/6
 
 1) Fix the viewQuestionPage answer boxes to align the userInfo next to answer
 2) Fix the itemType select box on homepage to be next to the search bar
@@ -6,9 +6,6 @@ TODO: Remaining: 6/8
 
 August 11:
 
-8) When bids end, check if seller set a reserve. If yes, then if the reserve 
-is higher than the highest bid, no one is the winner. If no, then whoever has
-the highest bid is the winner. Alert the winner that they won the auction
 
 12) Allow alerts for items that are restocked or whatever. Email???
 
@@ -20,9 +17,6 @@ participated in. Maybe search accounts or store info in the account
 information about them. We decide similarity measure
 
 August 13:
-19) Allow for change in items available. Maybe a class that can alter 
-Items in the database, and give access to customer reps and admin? Maybe
-Also automatically update based on items that are being sold?
 
 24) Summary sales reports include total earnings, 
 earnings per {item, item type, endUser}, best selling items, 

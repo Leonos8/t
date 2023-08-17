@@ -173,5 +173,11 @@
       			<button type="submit" class="newAuctionButton">New Auction</button>
     		</form>
 		</div>
+		
+		<div>
+			<form>
+				<button style="font-size: 25px;"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+			</form>
+		</div>
 	</body>	
 </html>
