@@ -175,7 +175,7 @@
 		</div>
 		
 		<div>
-			<form>
+			<form action="NotificationsPage.jsp">
 				<button style="font-size: 25px;"><i class="fa fa-envelope" aria-hidden="true"></i></button>
 			</form>
 		</div>

@@ -21,9 +21,25 @@
 			{
     			display: none;
 			}
+			
+			.homePageLogo
+  			{
+  				background-color: #0080fe
+  				text-align: center;
+  				font-size:50px;
+  				cursor: pointer;
+  				border: 2px solid black;
+  				text-align: center;
+  			}
 		</style>
 		
 		<script type="text/javascript">
+			function goToHome()
+			{
+				location.replace("HomePage.jsp")
+			}
+
+		
 			function hideDiv()
 			{
 		    	document.getElementById('clothingType_div').style.display = "none";
@@ -247,6 +263,10 @@
 		</script>
 	</head>
 	<body onload="hideDiv()">
+		<div class="homePageLogo">
+			<a onclick=goToHome()>Online Auction</a>
+		</div>
+	
 		<form action="../Processing/NAProcessing.jsp" method="post">
   			<div class="container">
     			<label for="category">Choose a category:</label>

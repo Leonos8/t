@@ -85,6 +85,7 @@
   				font-size:50px;
   				cursor: pointer;
   				border: 2px solid black;
+  				text-align: center;
   			}
   			.displayUser
   			{

@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+	String userid=(String)session.getAttribute("LOGIN_USER");
+	if(userid==null)
+	{
+    	response.sendRedirect("../login/LoginPage.jsp");
+    	return; //the return is important; forces redirect to go now
+	}
+%>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -52,6 +61,15 @@
   			{	
   				font-size: 30px;
   			}
+  			
+  			.forumLogo
+		{
+			background-color: #0080fe;
+  			text-align: center;
+  			font-size:50px;
+  			cursor: pointer;
+  			border: 2px solid black;
+		}
 		</style>
 		
 		<script>
@@ -74,9 +92,16 @@
 			window.history.replaceState({}, "", jsUser);
 			}
 		
+			function goToHome()
+			{
+				location.replace("HomePage.jsp")
+			}
 		</script>
 	</head>
 	<body onload="changeLink()">
+		<div class="forumLogo">
+			<a onclick=goToHome()>Forum</a>
+		</div>
 		<%
 			Object[] questionInfo=uh.getQuestions().get(qid-1);
 		%>

@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+	String userid=(String)session.getAttribute("LOGIN_USER");
+	if(userid==null)
+	{
+    	response.sendRedirect("../login/LoginPage.jsp");
+    	return; //the return is important; forces redirect to go now
+	}
+%>
+
 <!DOCTYPE html>
 <html>
 	<head>

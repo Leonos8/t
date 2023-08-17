@@ -1,13 +1,9 @@
-TODO: Remaining: 4/6
+TODO: Remaining: 3/5
 
 1) Fix the viewQuestionPage answer boxes to align the userInfo next to answer
 2) Fix the itemType select box on homepage to be next to the search bar
 
 
-August 11:
-
-
-12) Allow alerts for items that are restocked or whatever. Email???
 
 August 12:
 13) List of all auctions and bids a specific buyer or seller has 

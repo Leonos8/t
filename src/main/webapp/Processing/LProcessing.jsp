@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+
 <%
 	String uname=request.getParameter("uname");
 	String pword=request.getParameter("psw");
+	
+	System.out.println("U="+uname);
+	System.out.println("P="+pword);
+
 	
 	userHandler.UserHandler uh=new userHandler.UserHandler();
 	
