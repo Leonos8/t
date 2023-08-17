@@ -34,11 +34,11 @@
     			float: right;
     			display: block;
     			text-align: left;
-    			width: 2%;
+    			width: 5%;
     			margin-right: 0;
     			margin-top: 8px;
-    			padding: 4px;
-    			display: inline;
+    			padding: 8px;
+    			display-inline: block;
   			}
   			
   			.newAuctionButton 
@@ -52,34 +52,18 @@
     			padding: 8px;
   			}
   			
-  			
-  			
   			.itemTypeSelect
   			{
   				vertical-align: middle;
-  				display: block;
-				float:left;
-  				margin-left: 100px;
-  				margin-top: 4px;
-  				text-align: left;
-  				position: relative;
-  				padding: 12px;
-  			}
-  			
-  			.itemType
-  			{
-  				margin: 10px;
-  				display: inline-block;
-  				float:left;
-  				position: relative;
-  				
+  				display-inline: block;
+  				margin-right: 5%;
   			}
   			
   			*
   			{
 	
 				padding: 0;
-				margin: 5px;
+				margin: 1;
 				font-family: sans-serif;
 			}
 	
@@ -172,9 +156,8 @@
 			<form action="../Processing/SearchProcessing.jsp">
       			<input type="text" placeholder="Search..." name="search">
       			<button type="submit" class=searchButton><i class="fa fa-search"></i></button>
-    		</form>
     		
-    		<div class="itemTypeSelect">
+    			<div class="itemTypeSelect">
     				<select name="itemType" id="itemType">
 						<option value="clothing">Clothing</option>
    	 					<option value="computers">Computers</option>
@@ -182,9 +165,8 @@
     					<option value="other">Other</option>
   					</select>
     			</div>
+    		</form>
 		</div>
-		
-		
 		
 		<div>
 			<form action="NewAuctionPage.jsp">

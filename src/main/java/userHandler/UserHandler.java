@@ -995,6 +995,17 @@ public class UserHandler
 		return sql.getRowCount("endUsers")+1;
 	}
 	
+	public ArrayList<Object[]> getNotifications(String user)
+	{
+		DBSQL sql=new DBSQL("Accounts");
+		
+		String query="SELECT * FROM Messages WHERE receiver="+user+";";
+		
+		ArrayList<Object[]> messages=sql.select(query);
+		
+		return messages;
+	}
+	
 	public boolean isAdmin(String uname)
 	{
 		boolean isCR=false;
