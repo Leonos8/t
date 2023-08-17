@@ -25,6 +25,8 @@ Create TABLE IF NOT EXISTS custRep
     primary key(uid)
 );
 
+SELECT * FROM AUCTION;
+
 Create TABLE IF NOT EXISTS endUsers
 (
 	uid int unique not null,
@@ -35,6 +37,17 @@ Create TABLE IF NOT EXISTS endUsers
 	lastAccessed datetime not null,
     isActive bool not null,
     primary key(uid)
+);
+
+Create TABLE IF NOT EXISTS Messages
+(
+	messageID int not null,
+    sender varchar(32),
+    receiver varchar(32),
+    title varchar(256),
+    message varchar(1024),
+    sentDate datetime,
+    PRIMARY KEY(messageID)
 );
 
 Create DATABASE IF NOT EXISTS Auctions;
