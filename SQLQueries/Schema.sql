@@ -25,6 +25,22 @@ Create TABLE IF NOT EXISTS custRep
     primary key(uid)
 );
 
+INSERT INTO Administrator
+VALUES (1, 'Admin', 'root', 'Admin@gmail.com', '6090001111', '2001-01-01 00:00:00', true);
+
+INSERT INTO endUsers
+VALUES (1, 'Admin', 'root', 'Admin@gmail.com', '6090001111', '2001-01-01 00:00:00', true);
+
+
+
+INSERT INTO custRep
+VALUES (2, 'cr', 'crpass', 'cr@gmail.com', '6092221111', '2001-01-01 00:00:00', true);
+
+INSERT INTO endUsers
+VALUES (2, 'cr', 'crpass', 'cr@gmail.com', '6092221111', '2001-01-01 00:00:00', true);
+
+SELECT * FROM AUCTION;
+
 Create TABLE IF NOT EXISTS endUsers
 (
 	uid int unique not null,
@@ -35,6 +51,17 @@ Create TABLE IF NOT EXISTS endUsers
 	lastAccessed datetime not null,
     isActive bool not null,
     primary key(uid)
+);
+
+Create TABLE IF NOT EXISTS Messages
+(
+	messageID int not null,
+    sender varchar(32),
+    receiver varchar(32),
+    title varchar(256),
+    message varchar(1024),
+    sentDate datetime,
+    PRIMARY KEY(messageID)
 );
 
 Create DATABASE IF NOT EXISTS Auctions;
@@ -64,10 +91,9 @@ Create TABLE IF NOT EXISTS Bid
     maxBid decimal(15, 2),
     createdBy varchar(32) not null,
     dt datetime not null,
+    isActive boolean,
     primary key(bidID)
 );
-
-select * from Administrator;
 
 Create TABLE IF NOT EXISTS Item
 (
@@ -348,22 +374,6 @@ Create TABLE IF NOT EXISTS Answers
     dtAnswered datetime not null,
 	PRIMARY KEY(answerID)
 );
-
-
-
-
-
-SELECT * FROM Watch WHERE Company LIKE '%car'% OR Model LIKE '%car'% OR Color LIKE '%car'% OR Material LIKE '%car'%;
-
-
-
-
-
- UNION SELECT * FROM Item WHERE Category LIKE '%car%' OR Subcategory LIKE '%car%' UNION SELECT * FROM Clothing WHERE Subcategory LIKE '%car%' UNION SELECT * FROM Bracelet WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Earrings WHERE Company LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Hats WHERE Style LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Necklace WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Pants WHERE Company LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Shirts WHERE Company LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Material LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Shoes WHERE Company LIKE '%car%' OR Model LIKE '%car%' OR Mf LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Socks WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Undergarments WHERE Company LIKE '%car%' OR Size LIKE '%car%' OR Color LIKE '%car%' UNION SELECT * FROM Watch WHERE Company LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR Material LIKE '%car%' UNION SELECT * FROM Computers WHERE Subcategory LIKE '%car%' UNION SELECT * FROM AIO WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Screensize LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Desktop WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Laptop WHERE YearMade LIKE '%car%' OR Company LIKE '%car%' OR Model LIKE '%car%' OR Screensize LIKE '%car%' OR Color LIKE '%car%' OR Processor LIKE '%car%' OR Gpu LIKE '%car%' UNION SELECT * FROM Vehicles WHERE Subcategory LIKE '%car%' UNION SELECT * FROM Airplane WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Boat WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Bus WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Car WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' OR FuelType LIKE '%car%' OR Transmission LIKE '%car%' UNION SELECT * FROM Motorcycle WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR Color LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Offroad WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' UNION SELECT * FROM Truck WHERE BodyType LIKE '%car%' OR YearMade LIKE '%car%' OR Make LIKE '%car%' OR Model LIKE '%car%' OR ItemCondition LIKE '%car%' OR Mileage LIKE '%car%' UNION SELECT * FROM Other WHERE ItemName LIKE '%car%' OR ItemDescription LIKE '%car%'
-
-
-
-Select * from CAR;
 
 #######################################################################################
 
